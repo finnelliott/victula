@@ -1,9 +1,8 @@
-import type { WebhookEvent } from "@clerk/clerk-sdk-node";
-import { headers } from 'next/headers';
-import prisma from "../../../../prisma/prismadb";
-
 import { Webhook } from "svix";
 import { buffer } from "micro";
+import { NextApiRequest, NextApiResponse } from "next";
+import { WebhookEvent } from "@clerk/nextjs/server";
+import prisma from "../../../prisma/prismadb";
 
 export const config = {
     api: {
@@ -12,20 +11,22 @@ export const config = {
 }
 
 if (!process.env.CLERK_WEBHOOK_SECRET) throw new Error("No webhook secret found")
+const secret = process.env.CLERK_WEBHOOK_SECRET as string;
 
-export async function POST(request: Request) {
-    const req = await request.json();
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const payload = (await buffer(req)).toString();
-    const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET as string);
+    const headers = req.headers;
+
+    const wh = new Webhook(secret);
     let msg;
     try {
-        msg = wh.verify(payload, req.headers);
+        // @ts-ignore
+        msg = wh.verify(payload, headers);
     } catch (err) {
-        return new Response("Invalid webhook signature", {
-            status: 401,
-        })
+        res.status(400).json({});
     }
 
+    // Do something with the message...
     const evt = req.body.evt as WebhookEvent; 
     switch (evt.type) {
         case 'user.created': // this is typed
@@ -36,5 +37,5 @@ export async function POST(request: Request) {
             })
             break;
     }
-    return new Response("Webhook received")
+    return res.status(200).json({});
 }
