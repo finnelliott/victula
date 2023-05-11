@@ -1,12 +1,8 @@
-import { authMiddleware } from "@clerk/nextjs";
+import { withClerkMiddleware } from "@clerk/nextjs";
+import { NextResponse } from "next/server";
 
-export default authMiddleware({
-  beforeAuth: (req) => {
-    const path = req.nextUrl.pathname;
-    if (!path.startsWith('/app')) {
-      return false;
-    }
-  },
+export default withClerkMiddleware(req => {
+    return NextResponse.next();
 });
 
 export const config = {

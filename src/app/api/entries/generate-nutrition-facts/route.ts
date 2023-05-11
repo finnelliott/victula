@@ -15,13 +15,14 @@ export async function POST(request: Request) {
         {
             role: "system", 
             content: `You are NutritionGPT. The user will provide a description of a meal. Please provide an accurate estimate of the nutritional value as a JSON object with the following types: {
+            name: string,
             calories: number,
             fats: number,
             carbohydrates: number,
-            protein: number,
+            proteins: number,
             notes: string
             }
-            Only return the JSON object. Do not provide any explanation or notes. If you must include any further information, please place it in the JSON object under the 'notes' value. If you cannot estimate the nutritional content with a moderate level of certainty, return a JSON object { error: true }`
+            Only return the JSON object. Do not provide any explanation or notes. The name should just summarise the described meal in 50 characters or less. If you must include any further information, please place it in the JSON object under the 'notes' value. If you cannot estimate the nutritional content with a moderate level of certainty, return a JSON object { error: true }`
         }, {
             role: "user",
             content: description

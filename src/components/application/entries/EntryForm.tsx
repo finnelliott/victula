@@ -1,14 +1,17 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function EntryForm() {
+    const router = useRouter();
     const [description, setDescription] = useState("");
+    const [name, setName] = useState("");
     const [calories, setCalories] = useState("");
     const [carbohydrates, setCarbohydrates] = useState("");
     const [fats, setFats] = useState("");
-    const [protein, setProtein] = useState("");
-    const handleSubmit = async () => {
+    const [proteins, setProteins] = useState("");
+    const handleGenerateNutritionFacts = async () => {
         const response = await fetch(`/api/entries/generate-nutrition-facts`, {
             method: "POST",
             headers: {
@@ -16,16 +19,30 @@ export default function EntryForm() {
             },
             body: JSON.stringify({ description }),
         }).then(res => res.json());
-        alert(response);
-        const { calories, carbohydrates, fats, protein } = JSON.parse(response);
+        const { calories, carbohydrates, fats, proteins, name } = JSON.parse(response);
+        setName(name);
         setCalories(calories);
         setCarbohydrates(carbohydrates);
         setFats(fats);
-        setProtein(protein);
+        setProteins(proteins);
+    }
+    const handleAddToDiary = async () => {
+        const response = await fetch(`/api/entries`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ description, calories, carbohydrates, fats, proteins, name }),
+        }).then(res => res.json());
+        if (response.error) {
+            alert(response.error);
+            return;
+        }
+        router.push("/app")
     }
     return (
         <>
-        <form onSubmit={(e) => {e.preventDefault();handleSubmit()}} className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
+        <form onSubmit={(e) => {e.preventDefault();handleGenerateNutritionFacts()}} className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
           <div className="px-4 py-6 sm:p-8">
             <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 
@@ -49,20 +66,35 @@ export default function EntryForm() {
             </div>
           </div>
           <div className="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
-            <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
-              Cancel
+            <button onClick={() => setDescription("")} type="button" className="text-sm font-semibold leading-6 text-gray-900">
+              Clear
             </button>
             <button
               type="submit"
               className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Save
+              Get Nutrition Facts
             </button>
           </div>
         </form>
-        <form className="mt-8 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
+        <form onSubmit={(e) => {e.preventDefault();handleAddToDiary()}} className="mt-8 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
           <div className="px-4 py-6 sm:p-8">
             <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div className="sm:col-span-6">
+                <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
+                  Name
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    value={name}
+                    onChange={(e) => setCalories(e.target.name)}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
               <div className="sm:col-span-3">
                 <label htmlFor="calories" className="block text-sm font-medium leading-6 text-gray-900">
                   Calories
@@ -112,16 +144,16 @@ export default function EntryForm() {
               </div>
 
               <div className="sm:col-span-3">
-                <label htmlFor="protein" className="block text-sm font-medium leading-6 text-gray-900">
-                    Protein
+                <label htmlFor="proteins" className="block text-sm font-medium leading-6 text-gray-900">
+                    Proteins
                 </label>
                 <div className="mt-2">
                   <input
                     type="text"
-                    name="protein"
-                    id="protein"
-                    value={protein}
-                    onChange={(e) => setProtein(e.target.value)}
+                    name="proteins"
+                    id="proteins"
+                    value={proteins}
+                    onChange={(e) => setProteins(e.target.value)}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -130,14 +162,15 @@ export default function EntryForm() {
             </div>
           </div>
           <div className="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
-            <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
-              Cancel
+            <button onClick={() => {setCalories("");setCarbohydrates("");setFats("");setProteins("");}} type="button" className="text-sm font-semibold leading-6 text-gray-900">
+              Clear
             </button>
             <button
+              disabled={calories === "" || carbohydrates === "" || fats === "" || proteins === ""}
               type="submit"
               className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Save
+              Add to Diary
             </button>
           </div>
         </form>
