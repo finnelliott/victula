@@ -6,6 +6,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { UserButton } from '@clerk/nextjs';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Image from 'next/image';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -37,12 +38,12 @@ export default function Navbar() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <img
+                  <Image
                     className="block h-8 w-auto lg:hidden"
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                     alt="Your Company"
                   />
-                  <img
+                  <Image
                     className="hidden h-8 w-auto lg:block"
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                     alt="Your Company"
@@ -75,6 +76,7 @@ export default function Navbar() {
               {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" */}
               {navigation.map((item) => (
                 <Disclosure.Button
+                    key={item.name}
                     as={Link}
                     href={item.href}
                     className={classNames(item.current ? 'bg-indigo-50 border-indigo-500 text-indigo-700' : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700', 'block pl-3 pr-4 py-2 border-l-4 text-base font-medium')}
