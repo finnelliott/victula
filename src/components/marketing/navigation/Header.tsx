@@ -28,7 +28,7 @@ export default function Header() {
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-            <Image className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" width={32} />
+            <Image className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" width={32} height={20} />
           </Link>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
@@ -64,6 +64,7 @@ export default function Header() {
                 className="h-8 w-auto"
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 width={32}
+                height={20}
                 alt=""
               />
             </Link>
