@@ -30,10 +30,10 @@ export default function Header() {
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Victula</span>
             <Image
-                    className="h-4 w-auto"
-                    src={logo}
-                    alt="Victula"
-                  />
+                className="h-4 w-auto"
+                src={logo}
+                alt="Victula"
+            />
           </Link>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
@@ -64,20 +64,12 @@ export default function Header() {
         <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center gap-x-6">
             <Link href="/" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
+              <span className="sr-only">Victula</span>
               <Image
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                width={32}
-                height={20}
-                alt=""
+                className="h-4 w-auto"
+                src={logo}
+                alt="Victula"
               />
-            </Link>
-            <Link
-              href="/sign-up"
-              className="ml-auto rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Sign up
             </Link>
             <button
               type="button"
@@ -103,7 +95,7 @@ export default function Header() {
               </div>
               <div className="py-6">
                 <Link
-                  href="/sign-in"
+                  href="/app"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
                   Sign in
