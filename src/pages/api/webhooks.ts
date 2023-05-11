@@ -25,17 +25,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     } catch (err) {
         res.status(400).json({});
     }
-
+    
     // Do something with the message...
-    const evt = req.body.evt as WebhookEvent; 
-    switch (evt.type) {
-        case 'user.created': // this is typed
-            const user = await prisma.user.create({
-                data: {
-                    clerkId: evt.data.id,
-                }
-            })
-            break;
-    }
+    // const evt = req.body.evt as WebhookEvent; 
+    // switch (evt.type) {
+    //     case 'user.created': // this is typed
+    //         const user = await prisma.user.create({
+    //             data: {
+    //                 clerkId: evt.data.id,
+    //             }
+    //         })
+    //         break;
+    // }
     return res.status(200).json({});
 }
