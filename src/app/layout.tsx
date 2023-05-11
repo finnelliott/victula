@@ -13,8 +13,8 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" className="h-full">
+      <body className="h-full">{children}</body>
     </html>
     </ClerkProvider>
   )
