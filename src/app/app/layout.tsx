@@ -11,9 +11,9 @@ export default function AppLayout({
   children: React.ReactNode
 }) {
   return (
-    <>
+    <div className="h-full w-full bg-gray-50">
     <Navbar />
     {children}
-    </>
+    </div>
   )
 }
