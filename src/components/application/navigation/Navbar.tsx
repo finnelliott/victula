@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import { Disclosure } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { UserButton } from '@clerk/nextjs';
-import { useRouter } from 'next/router';
+import logo from "../../../../public/logo-black.png"
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -39,21 +39,17 @@ export default function Navbar() {
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
                   <Image
-                    className="block h-8 w-auto lg:hidden"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                    width={32}
-                    height={20}
-                    alt="Your Company"
+                    className="block h-4 w-auto lg:hidden"
+                    src={logo}
+                    alt="Victula"
                   />
                   <Image
-                    className="hidden h-8 w-auto lg:block"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                    width={32}
-                    height={20}
-                    alt="Your Company"
+                    className="hidden h-4 w-auto lg:block"
+                    src={logo}
+                    alt="Victula"
                   />
                 </div>
-                <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+                <div className="hidden sm:ml-8 sm:flex sm:space-x-8">
                   {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
                   {navigation.map((item) => (
                     <Link

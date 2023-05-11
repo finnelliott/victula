@@ -11,6 +11,7 @@ import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link';
 import Image from "next/image";
+import logo from "../../../../public/logo-black.png"
 
 const navigation = [
   { name: 'Product', href: '/product' },
@@ -27,8 +28,12 @@ export default function Header() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between gap-x-6 p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">Your Company</span>
-            <Image className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" width={32} height={20} />
+            <span className="sr-only">Victula</span>
+            <Image
+                    className="h-4 w-auto"
+                    src={logo}
+                    alt="Victula"
+                  />
           </Link>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
