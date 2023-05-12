@@ -46,7 +46,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case 'user.created':
       // Handle new user creation
       const newUser = evt.data;
-      console.log('New user created:', newUser);
+      const user = await prisma.user.create({
+        data: {
+            clerkId: newUser.id,
+        }
+      })
 
       // Add your custom logic here
 
