@@ -25,6 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     } catch (err) {
         res.status(400).json({});
     }
+
     
     // Do something with the message...
     // const evt = req.body.evt as WebhookEvent; 
@@ -37,5 +38,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     //         })
     //         break;
     // }
-    return res.status(200).json({});
+    res.status(200).json({});
 }
