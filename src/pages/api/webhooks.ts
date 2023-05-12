@@ -2,41 +2,62 @@ import { Webhook } from "svix";
 import { buffer } from "micro";
 import { NextApiRequest, NextApiResponse } from "next";
 import { WebhookEvent } from "@clerk/nextjs/server";
+import type { IncomingHttpHeaders } from 'http';
 import prisma from "../../../prisma/prismadb";
 
 export const config = {
-    api: {
-        bodyParser: false,
-    },
+  api: {
+    bodyParser: false,
+  },
+};
+
+// Replace with your webhook secret
+if (!process.env.CLERK_WEBHOOK_SECRET) { throw new Error('Missing CLERK_WEBHOOK_SECRET environment variable') }
+const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET as string;
+
+// Convert headers to Record<string, string>
+function convertHeaders(headers: IncomingHttpHeaders): Record<string, string> {
+    const result: Record<string, string> = {};
+    for (const key in headers) {
+      if (typeof headers[key] === 'string') {
+        result[key] = headers[key] as string;
+      }
+    }
+    return result;
 }
 
-if (!process.env.CLERK_WEBHOOK_SECRET) throw new Error("No webhook secret found")
-const secret = process.env.CLERK_WEBHOOK_SECRET as string;
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const payload = (await buffer(req)).toString();
-    const headers = req.headers;
+  // Verify webhook signature
+  const payload = (await buffer(req)).toString();
+  const headers = convertHeaders(req.headers);
 
-    const wh = new Webhook(secret);
-    let msg;
-    try {
-        // @ts-ignore
-        msg = wh.verify(payload, headers);
-    } catch (err) {
-        res.status(400).json({});
-    }
+  const webhook = new Webhook(WEBHOOK_SECRET);
+  let event;
+  try {
+    event = webhook.verify(payload, headers);
+  } catch (err) {
+    console.error('Webhook signature verification failed:', err);
+    return res.status(401).json({ error: 'Invalid webhook signature' });
+  }
 
-    
-    // Do something with the message...
-    // const evt = req.body.evt as WebhookEvent; 
-    // switch (evt.type) {
-    //     case 'user.created': // this is typed
-    //         const user = await prisma.user.create({
-    //             data: {
-    //                 clerkId: evt.data.id,
-    //             }
-    //         })
-    //         break;
-    // }
-    res.status(200).json({});
+  // Handle webhook events
+  const evt = event as WebhookEvent;
+  switch (evt.type) {
+    case 'user.created':
+      // Handle new user creation
+      const newUser = evt.data;
+      console.log('New user created:', newUser);
+
+      // Add your custom logic here
+
+      break;
+
+    // Add more cases to handle other webhook events if needed
+
+    default:
+      console.log('Unhandled event:', evt.type);
+  }
+
+  // Return a 200 status to acknowledge receipt of the webhook
+  res.status(200).json({ received: true });
 }
