@@ -40,8 +40,8 @@ export default function TargetChat() {
                 ))}
             </div>
             <form onSubmit={(e) => {e.preventDefault();handleSubmit()}}>
-                <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={1} className="absolute left-0 right-0 w-auto bottom-0 min-h-[44px] pl-4 pr-12 py-2 focus:outline-none outline-indigo-700 focus:ring-1 focus:ring-indigo-700 bg-white text-gray-900 placeholder-neutral-600 shadow-lg border-none" placeholder="Type a message..." />
-                <button type="submit" className="absolute p-1 right-4 bottom-0 mb-2 mr-2 z-20 bg-indigo-600 rounded-full"><ArrowUpIcon className="w-5 h-5 text-white"/></button>
+                <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={1} className="absolute left-0 right-0 w-auto bottom-0 min-h-[44px] pl-4 pr-12 py-4 focus:outline-none outline-indigo-700 focus:ring-1 focus:ring-indigo-700 bg-white text-gray-900 placeholder-neutral-600 shadow-lg border-t border-gray-300 border-x-0 border-b-0" placeholder="Type a message..." />
+                <button type="submit" className="absolute p-1 right-4 bottom-0 mb-3 mr-2 z-20 bg-indigo-600 rounded-full"><ArrowUpIcon className="w-5 h-5 text-white"/></button>
             </form>
         </div>
     )
