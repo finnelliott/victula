@@ -14,6 +14,10 @@ model User {
   id      String  @id @default(auto()) @map("_id") @db.ObjectId
   clerkId String? @unique
   entries Entry[]
+  target_calories      Float?
+  target_carbohydrates Float?
+  target_fats          Float?
+  target_proteins      Float?
 }
 
 model Entry {

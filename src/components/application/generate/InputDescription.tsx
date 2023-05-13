@@ -1,5 +1,5 @@
 "use client";
-import { ArrowLongRightIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
+import { ArrowLongRightIcon } from "@heroicons/react/24/outline";
 import { useState } from "react"
 
 export default function InputDescription() {
@@ -10,14 +10,14 @@ export default function InputDescription() {
     async function submitDescription() {
         setGenerating(true)
         try {
-            const response = await fetch('/api/entries/generate-nutrition-facts', {
+            const response = await fetch('/api/generate/nutrition-facts', {
                 method: 'POST',
                 body: JSON.stringify({
                     description
                 }),
             })
             const data = await response.json()
-            setEntry(JSON.parse(data))
+            setEntry({...JSON.parse(data), description})
         } catch (error) {
             console.error(error)
         }
@@ -41,6 +41,7 @@ export default function InputDescription() {
             if (data.error) {
                 alert(data.error)
             } else {
+                location.reload()
                 setEntry(null)
                 setDescription('')
             }
@@ -51,7 +52,7 @@ export default function InputDescription() {
     }
     return (
         <form onSubmit={(e) => {e.preventDefault();submitDescription();}} className="relative">
-          <div className="overflow-hidden rounded-lg shadow-xl ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+          <div className="overflow-hidden rounded-lg shadow-xl ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600 bg-white">
             {(generating || submittingEntry) && <>
             <div className="overflow-hidden rounded-lg ring-1 ring-inset ring-gray-300  absolute z-30 inset-0 pointer-events-none w-full bg-white" aria-hidden="true" />
             <div className="overflow-hidden rounded-lg ring-1 ring-inset ring-gray-300  absolute z-40 inset-0 pointer-events-none w-full bg-transparent justify-center items-center text-gray-600 animate-pulse duration-1000 ease-in-out flex flex-col" aria-hidden="true" >
@@ -62,26 +63,44 @@ export default function InputDescription() {
             </div>
             </>}
             {entry && <>
-                <div className="overflow-hidden rounded-lg ring-1 ring-inset ring-gray-300  absolute z-10 inset-0 w-full bg-white space-y-4 p-8 flex flex-row space-between" aria-hidden="true">
-                    <div className="flex flex-col flex-1 h-full justify-between">
-                        <h2 className="text-lg font-medium text-gray-800">{entry.name}</h2>
-                        <div className="text-gray-600">{entry.calories}kcal | Carbs {entry.carbohydrates}g | Protein {entry.proteins}g | Fats {entry.fats}g</div>
+                <div className="overflow-hidden rounded-lg ring-1 ring-inset ring-gray-300  absolute z-10 inset-0 w-full bg-white p-8 flex flex-col lg:flex-row space-between" aria-hidden="true">
+                    <div className="flex-1 w-5/6 flex flex-col justify-center">
+                        <h3 className="font-medium text-lg text-gray-800">{entry.name}</h3>
+                        <div className="flex space-x-4 text-xs text-gray-500 mt-2">
+                            <div><span className="text-gray-400">Energy </span>{entry.calories}kcal</div>
+                            <div><span className="text-gray-400">Protein </span>{entry.proteins}g</div>
+                            <div><span className="text-gray-400">Carbs </span>{entry.carbohydrates}g</div>
+                            <div><span className="text-gray-400">Fat </span>{entry.fats}g</div>
+                        </div>
+                        {entry.description && <div className="max-w-full"><p className="text-gray-600 text-xs mt-2 truncate leading-5 h-5">{entry.description}</p></div>}
                     </div>
-                    <div className="flex flex-col flex-none h-full justify-center">
-                        <button type="button" onClick={() => submitEntry()} className="px-4 py-2 bg-indigo-600 text-white rounded-md">Add to diary</button>
-                        <button type="button" onClick={() => setEntry("")} className="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-md">Cancel</button>
+                    <div className="flex flex-row space-x-2 flex-none lg:h-full justify-center items-center w-full lg:w-auto">
+                        <button
+                            type="button"
+                            onClick={() => setEntry(null)}
+                            className="w-1/2 lg:w-auto rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                        >
+                            Edit
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => submitEntry()}
+                            className="w-1/2 lg:w-auto rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        >
+                            Add to diary
+                        </button>
                     </div>
                 </div>
             </>}
             <label htmlFor="food-description" className="sr-only">
-              Describe the food you would like to add to your diary
+            Give a detailed description of the food you would like to add to your diary. For best results, include any ingredients, cooking methods, or other relevant information.
             </label>
             <textarea
               rows={3}
               name="food-description"
               id="food-description"
-              className="block w-full resize-none border-0 bg-transparent py-4 px-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-base sm:leading-6"
-              placeholder="Describe the food you would like to add to your diary"
+              className="block w-full resize-none border-0 bg-transparent p-8 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-base sm:leading-6"
+              placeholder="Give a detailed description of the food you would like to add to your diary. For best results, include any ingredients, cooking methods, or other relevant information."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
@@ -95,7 +114,7 @@ export default function InputDescription() {
             </div>
           </div>
 
-          <div className="absolute inset-x-0 bottom-0 flex justify-end py-4 pl-4 pr-4">
+          <div className="absolute inset-x-0 bottom-0 flex justify-end py-8 pl-8 pr-8">
             <div className="flex-shrink-0">
               <button
                 type="submit"
