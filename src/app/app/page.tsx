@@ -5,6 +5,7 @@ import prisma from "../../../prisma/prismadb";
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from 'next/navigation';
 import InputDescription from "@/components/application/generate/InputDescription";
+import DailySummary from "@/components/application/data/DailySummary";
 
 export default async function AppHome() {
     const user = await currentUser()
@@ -13,7 +14,9 @@ export default async function AppHome() {
     // )
     const entries = await prisma.entry.findMany({
         where: {
-            user_id: user?.id,
+            user: {
+                clerkId: user?.id
+            },
             consumed_at: {
                 gte: new Date(new Date().setHours(0, 0, 0, 0)),
                 lte: new Date(new Date().setHours(23, 59, 59, 999))
@@ -22,8 +25,11 @@ export default async function AppHome() {
     })
     return (
         <main className="z-0 relative h-full">
-            <div className="mx-auto max-w-3xl p-4">
+            <div className="mx-auto max-w-3xl px-4 py-8 space-y-8">
                 <InputDescription />
+                <DailySummary />
+                {JSON.stringify(entries)}
+                
             </div>
         </main>
     )
