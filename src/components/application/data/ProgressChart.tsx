@@ -23,7 +23,7 @@ const nutrients = [
     }
 ] as nutrientType[]
 
-export default function ({ entries, targets }: { entries: Entry[], targets: { calories: number, carbohydrates: number, fats: number, proteins: number }}) {
+export default function ProgressChart({ entries, targets }: { entries: Entry[], targets: { calories: number, carbohydrates: number, fats: number, proteins: number }}) {
     const totalNutrients = entries.reduce(
         (acc, entry) => {
           acc.calories += entry.calories || 0;
