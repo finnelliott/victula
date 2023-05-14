@@ -1,7 +1,7 @@
 import { currentUser } from "@clerk/nextjs"
 import prisma from "../../../../prisma/prismadb"
-import TargetChat from "@/components/application/targets/TargetChat.tsx"
 import InputTargetContext from "@/components/application/generate/InputTargetContext"
+import EditTargets from "@/components/application/targets/EditTargets"
 
 export default async function AppTargets() {
     const user = await currentUser()
@@ -17,15 +17,7 @@ export default async function AppTargets() {
                     <h1 className="text-2xl font-semibold text-gray-900">{userData?.target_calories ? "Targets": "Set targets"}</h1>
                     <div className="mt-2">
                         {userData?.target_calories ? (
-                            <>
-                            <p className="text-gray-600 text-sm">Your targets are:</p>
-                            <ul className="mt-2">
-                                <li className="text-gray-600 text-sm">Calories: {userData?.target_calories}</li>
-                                <li className="text-gray-600 text-sm">Protein: {userData?.target_proteins}</li>
-                                <li className="text-gray-600 text-sm">Carbohydrates: {userData?.target_carbohydrates}</li>
-                                <li className="text-gray-600 text-sm">Fat: {userData?.target_fats}</li>
-                            </ul>
-                            </>
+                            <EditTargets user={userData} />
                         ) : (
                             <>
                             <p className="text-gray-600 text-md">You have not set any targets yet. Please provide as much information as possible in order to set appropriate goals.</p>

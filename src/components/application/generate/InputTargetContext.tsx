@@ -9,8 +9,14 @@ export default function InputTargetContext() {
     const [ weight, setWeight ] = useState("");
     const [ activityLevel, setActivityLevel ] = useState("");
     const [ goal, setGoal ] = useState("");
-    async function handleSubmit(e: React.FormEvent) {
+    const [ generating, setGenerating ] = useState(false)
+    const [ targetCalories, setTargetCalories ] = useState<string | undefined>()
+    const [ targetCarbohydrates, setTargetCarbohydrates ] = useState<string | undefined>()
+    const [ targetFats, setTargetFats ] = useState<string | undefined>()
+    const [ targetProteins, setTargetProteins ] = useState<string | undefined>()
+    async function handleGenerateTargets(e: React.FormEvent) {
         e.preventDefault();
+        setGenerating(true)
         try {
             const response = await fetch("/api/generate/targets", {
                 method: 'POST',
@@ -23,12 +29,122 @@ export default function InputTargetContext() {
                     goal
                 })
             }).then(res => res.json());
+            const { target_calories, target_carbohydrates, target_fats, target_proteins } = JSON.parse(response);
+            setTargetCalories(target_calories);
+            setTargetCarbohydrates(target_carbohydrates);
+            setTargetFats(target_fats);
+            setTargetProteins(target_proteins);
+        } catch (error) {
+            console.error(error)
+        }
+        setGenerating(false)
+    }
+    async function handleSaveTargets(e: React.FormEvent) {
+        e.preventDefault();
+        try {
+            const response = await fetch("/api/user", {
+                method: 'PUT',
+                body: JSON.stringify({
+                    target_calories: targetCalories,
+                    target_carbohydrates: targetCarbohydrates,
+                    target_fats: targetFats,
+                    target_proteins: targetProteins
+                })
+            })
+            if (response.ok) {
+                alert("Targets saved!")
+            }
         } catch (error) {
             console.error(error)
         }
     }
     return (
-        <form onSubmit={handleSubmit}>
+        <div className="relative">
+        {generating && 
+        <div className="absolute w-full h-full bg-white flex items-center justify-center space-y-4 flex-col text-gray-600">
+            <svg className="w-8 h-8 stroke-1 stroke-current animate-spin" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M25 13C25 19.6274 19.6274 25 13 25C6.37258 25 1 19.6274 1 13C1 6.37258 6.37258 1 13 1" stroke="current" />
+            </svg>
+            <span className="mt-4">Generating targets...</span>
+        </div>}
+        {targetCalories ? 
+        <form onSubmit={handleSaveTargets}>
+        <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
+            <div className="sm:col-span-3">
+                <label htmlFor="target-calories" className="block text-sm font-medium leading-6 text-gray-900">
+                    Calories
+                </label>
+                <div className="mt-2">
+                    <input
+                    type="number"
+                    name="target-calories"
+                    id="target-calories"
+                    value={targetCalories}
+                    onChange={(e) => setTargetCalories(e.target.value)}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                </div>
+            </div>
+            
+            <div className="sm:col-span-3">
+                <label htmlFor="target-carbohydrates" className="block text-sm font-medium leading-6 text-gray-900">
+                    Carbohydrates
+                </label>
+                <div className="mt-2">
+                    <input
+                    type="number"
+                    name="target-carbohydrates"
+                    id="target-carbohydrates"
+                    value={targetCarbohydrates}
+                    onChange={(e) => setTargetCarbohydrates(e.target.value)}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                </div>
+            </div>
+
+            <div className="sm:col-span-3">
+                <label htmlFor="target-fats" className="block text-sm font-medium leading-6 text-gray-900">
+                    Fats
+                </label>
+                <div className="mt-2">
+                    <input
+                    type="number"
+                    name="target-fats"
+                    id="target-fats"
+                    value={targetFats}
+                    onChange={(e) => setTargetFats(e.target.value)}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+                </div>
+            </div>
+
+            <div className="sm:col-span-3">
+                <label htmlFor="target-proteins" className="block text-sm font-medium leading-6 text-gray-900">
+                    Proteins
+                </label>
+                <div className="mt-2">
+                    <input
+                    type="number"
+                    name="target-proteins"
+                    id="target-proteins"
+                    value={targetProteins}
+                    onChange={(e) => setTargetProteins(e.target.value)}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    />
+                </div>
+            </div>
+        </div>
+        <div className="flex justify-end">
+            <button
+                type="submit"
+                className="mt-8 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+                Save targets
+            </button>
+        </div>
+        </form>
+        :
+        <form onSubmit={handleGenerateTargets}>
         <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
             <div className="sm:col-span-3">
                 <label htmlFor="gender" className="block text-sm font-medium leading-6 text-gray-900">
@@ -135,5 +251,7 @@ export default function InputTargetContext() {
             </button>
         </div>
         </form>
+        }
+        </div>
     );
 }

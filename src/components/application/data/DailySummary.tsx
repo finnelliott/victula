@@ -2,6 +2,7 @@ import { CalendarDaysIcon, ChevronLeftIcon, ChevronRightIcon } from "@heroicons/
 import Link from "next/link";
 import EntryList from "../entries/EntryList";
 import { User } from "@prisma/client";
+import ProgressChart from "./ProgressChart";
 
 export default function DailySummary({ entries, selectedDate, user }: { entries: any, selectedDate: string, user: User }) {
     const date = new Date(selectedDate);
@@ -26,8 +27,8 @@ export default function DailySummary({ entries, selectedDate, user }: { entries:
             </div>
             <div className="w-full flex justify-between items-center border-b border-gray-300">
                 {
-                    user.target_calories ?
-                    <div className="p-8">Bars</div> :
+                    (user.target_calories && user.target_carbohydrates && user.target_fats && user.target_proteins) ?
+                    <ProgressChart entries={entries} targets={{ calories: user.target_calories, fats: user.target_fats, carbohydrates: user.target_carbohydrates, proteins: user.target_proteins  }} /> :
                     <div className="text-gray-500 w-full flex justify-between items-center space-x-4 bg-gray-50 p-8">
                         <div>Set daily targets to see your progress.</div>
                         <Link href="/app/targets">
