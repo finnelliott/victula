@@ -37,7 +37,7 @@ export default function ({ entries, targets }: { entries: Entry[], targets: { ca
     const data = nutrients.map((nutrient) => ({ name: nutrient.name, measure: nutrient.measure, value: totalNutrients[nutrient.name], target: targets[nutrient.name], percentage: ((totalNutrients[nutrient.name] / targets[nutrient.name]) * 100).toFixed(0) }))
     return (
         <div className="flex flex-col space-y-4 w-full">
-            {data.map((item) => (<div className="w-full flex flex-col space-y-2">
+            {data.map((item) => (<div key={item.name} className="w-full flex flex-col space-y-2">
                 <h3 className="text-md font-medium capitalize">{item.name} {`${item.value} / ${item.target}${item.measure} (${item.percentage}%)`}</h3>
                 <div className="relative w-full h-4 bg-gray-200 rounded-full overflow-hidden">
                     <div className="absolute left-0 top-0 h-4 bg-green-500 transition-all duration-1000 ease-in-out" style={{width: `${item.percentage}%` }}/>                                

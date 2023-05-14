@@ -35,8 +35,8 @@ export default function TargetChat() {
     return (
         <div className="h-full w-full relative">
             <div className="h-full w-full flex flex-col justify-start space-y-2 pb-16 overflow-y-scroll overflow-hidden p-4">
-                {messages.map((message) => (
-                    <div className={classNames(message.role == "user" ? "bg-indigo-600 text-white ml-auto border-indigo-800" : "bg-white text-gray-600 mr-auto border-gray-200", "rounded-lg p-3 border shadow max-w-[66%]")}>{message.content}</div>
+                {messages.map((message, index) => (
+                    <div key={index} className={classNames(message.role == "user" ? "bg-indigo-600 text-white ml-auto border-indigo-800" : "bg-white text-gray-600 mr-auto border-gray-200", "rounded-lg p-3 border shadow max-w-[66%]")}>{message.content}</div>
                 ))}
             </div>
             <form onSubmit={(e) => {e.preventDefault();handleSubmit()}}>

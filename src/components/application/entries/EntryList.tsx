@@ -1,12 +1,12 @@
-import Link from "next/link"
 import EntryListItemDropdown from "./EntryListItemDropdown"
+import { Entry } from "@prisma/client"
 
-export default async function EntryList({ entries, date } : { entries: any[], date: Date }) {
+export default async function EntryList({ entries, date } : { entries: Entry[], date: Date }) {
     if (entries && entries.length > 0) {
         return (
             <div className="flex flex-col h-full w-full divide-y divide-gray-300">
                 {entries.map((entry) => (
-                    <div className="w-full p-8 flex space-x-4 justify-between items-center">
+                    <div key={entry.id} className="w-full p-8 flex space-x-4 justify-between items-center">
                         <div className="flex-1 w-5/6">
                             <h3 className="font-medium text-lg text-gray-800">{entry.name}</h3>
                             <div className="flex space-x-4 text-xs text-gray-500 mt-2">
@@ -23,6 +23,6 @@ export default async function EntryList({ entries, date } : { entries: any[], da
             </div>
         )
     } else {
-        return (<div className="p-8 text-gray-500 text-left">No entries for {new Date(date).toDateString()}. Add items you've eaten to your diary to see them appear&nbsp;here.</div>)
+        return (<div className="p-8 text-gray-500 text-left">No entries for {new Date(date).toDateString()}. Add items you&apos;ve eaten to your diary to see them appear&nbsp;here.</div>)
     }
 }
