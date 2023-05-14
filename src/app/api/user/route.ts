@@ -10,10 +10,10 @@ export async function PUT(request: Request) {
                 clerkId: authenticatedUser?.id
             },
             data: {
-                target_calories: parseFloat(target_calories),
-                target_carbohydrates: parseFloat(target_carbohydrates),
-                target_fats: parseFloat(target_fats),
-                target_proteins: parseFloat(target_proteins),
+                target_calories: target_calories ? parseFloat(target_calories) : null,
+                target_carbohydrates: target_carbohydrates ? parseFloat(target_carbohydrates) : null,
+                target_fats: target_fats ? parseFloat(target_fats) : null,
+                target_proteins: target_proteins ? parseFloat(target_proteins) : null,
             }
         })
         return new Response(JSON.stringify(user));

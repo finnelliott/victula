@@ -21,7 +21,8 @@ export async function POST(request: Request): Promise<Response> {
         Gender: ${gender}
         Activity Level: ${activityLevel}
         Goal: ${goal}
-        Based on this information, please provide daily nutrition targets as a JSON object with the following types: {
+        Based on this information, please provide daily nutrition targets as a JSON object with the following types: 
+        {
             target_calories: number (kcal),
             target_fats: number (g),
             target_carbohydrates: number (g),
