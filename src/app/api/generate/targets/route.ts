@@ -25,10 +25,8 @@ export async function POST(request: Request): Promise<Response> {
             target_fats: number (g),
             target_carbohydrates: number (g),
             target_proteins: number (g),
-            explanation: string,
-            notes: string
         }
-        Only return the JSON object. Please provide an explanation for the targets under the 'explanation' key in the JSON object. If you must include any further information, please place it in the JSON object under the 'notes' key. If you cannot estimate the appropriate targets with a moderate level of certainty, return a JSON object { error: true }
+        Only return the JSON object. Don't provide any notes or explanation. If you cannot estimate the appropriate targets with a moderate level of certainty, return a JSON object { error: true }
         ` }
     ],
     temperature: 0,
