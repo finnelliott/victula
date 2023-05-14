@@ -1,7 +1,7 @@
 import { currentUser } from "@clerk/nextjs"
 import prisma from "../../../../prisma/prismadb"
-import InputTargetContext from "@/components/application/generate/InputTargetContext"
-import EditTargets from "@/components/application/targets/EditTargets"
+import InputTargetContext from "../../../components/application/generate/InputTargetContext"
+import EditTargets from "../../../components/application/targets/EditTargets"
 
 export default async function AppTargets() {
     const user = await currentUser()
