@@ -34,7 +34,7 @@ export default function ProgressChart({ entries, targets }: { entries: Entry[], 
         },
         { calories: 0, carbohydrates: 0, fats: 0, proteins: 0 }
     );
-    const data = nutrients.map((nutrient) => ({ name: nutrient.name, measure: nutrient.measure, value: totalNutrients[nutrient.name], target: targets[nutrient.name], percentage: ((totalNutrients[nutrient.name] / targets[nutrient.name]) * 100).toFixed(0) }))
+    const data = nutrients.map((nutrient) => ({ name: nutrient.name, measure: nutrient.measure, value: parseFloat(totalNutrients[nutrient.name].toFixed(1)), target: targets[nutrient.name], percentage: ((totalNutrients[nutrient.name] / targets[nutrient.name]) * 100).toFixed(0) }))
     return (
         <div className="flex flex-col space-y-4 w-full p-8">
             {data.map((item) => (<div key={item.name} className="w-full flex flex-col space-y-2">
