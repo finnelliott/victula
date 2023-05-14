@@ -5,7 +5,7 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-export async function POST(request: Request) {
+export default async function generateNutritionFacts(request: Request) {
     const { description } = await request.json();
 
     const completion = await openai.createChatCompletion({
@@ -34,4 +34,4 @@ export async function POST(request: Request) {
         })
     }
     return new Response(JSON.stringify(completion.data.choices[0].message.content))
-}  
+}

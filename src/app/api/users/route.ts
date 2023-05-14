@@ -4,10 +4,15 @@ import prisma from "../../../../prisma/prismadb";
 export async function PUT(request: Request) {
     try {
         const authenticatedUser = await currentUser();
+        if (!authenticatedUser) {
+            return new Response("Please log in to update your profile", {
+                status: 401,
+            })
+        }
         const { target_calories, target_carbohydrates, target_fats, target_proteins } = await request.json();
         const user = await prisma.user.update({
             where: {
-                clerkId: authenticatedUser?.id
+                clerkId: authenticatedUser.id
             },
             data: {
                 target_calories: target_calories ? parseFloat(target_calories) : null,
@@ -19,8 +24,8 @@ export async function PUT(request: Request) {
         return new Response(JSON.stringify(user));
     } catch (e) {
         console.log(e);
-      return new Response("Request cannot be processed!", {
-        status: 400,
-      });
+        return new Response("Request cannot be processed", {
+            status: 400,
+        });
     }
 }

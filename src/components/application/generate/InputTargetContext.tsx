@@ -19,12 +19,13 @@ export default function InputTargetContext() {
         e.preventDefault();
         setGenerating(true);
         try {
-            const res = await fetch("/api/generate/targets", {
+            const res = await fetch("/api/generate", {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
+                    type: "nutrition-targets",
                     gender,
                     age,
                     height,
@@ -71,7 +72,7 @@ export default function InputTargetContext() {
     async function handleSaveTargets(e: React.FormEvent) {
         e.preventDefault();
         try {
-            const response = await fetch("/api/user", {
+            const response = await fetch(`/api/users`, {
                 method: 'PUT',
                 body: JSON.stringify({
                     target_calories: targetCalories,

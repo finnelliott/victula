@@ -12,12 +12,15 @@ export default function EntryForm() {
     const [fats, setFats] = useState("");
     const [proteins, setProteins] = useState("");
     const handleGenerateNutritionFacts = async () => {
-        const response = await fetch(`/api/generate/nutrition-facts`, {
+        const response = await fetch(`/api/generate`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ description }),
+            body: JSON.stringify({ 
+                type: "nutrition-facts",
+                description 
+            }),
         }).then(res => res.json());
         const { calories, carbohydrates, fats, proteins, name } = JSON.parse(response);
         setName(name);

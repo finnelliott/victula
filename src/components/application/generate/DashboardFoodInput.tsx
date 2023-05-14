@@ -2,7 +2,7 @@
 import { ArrowLongRightIcon } from "@heroicons/react/24/outline";
 import { useState } from "react"
 
-export default function InputDescription() {
+export default function DashboardFoodInput() {
     const [ generating, setGenerating ] = useState(false)
     const [ submittingEntry, setSubmittingEntry ] = useState(false)
     const [ description, setDescription ] = useState('')
@@ -10,9 +10,10 @@ export default function InputDescription() {
     async function submitDescription() {
         setGenerating(true)
         try {
-            const response = await fetch('/api/generate/nutrition-facts', {
+            const response = await fetch('/api/generate', {
                 method: 'POST',
                 body: JSON.stringify({
+                    type: "nutrition-facts",
                     description
                 }),
             })

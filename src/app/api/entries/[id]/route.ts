@@ -2,8 +2,13 @@ import { currentUser } from "@clerk/nextjs/server";
 import prisma from "../../../../../prisma/prismadb";
 
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
-    const user = await currentUser();
-    if (user) {
+    const authenticatedUser = await currentUser();
+    if (!authenticatedUser) {
+        return new Response("Please log in to delete an entry", {
+            status: 401,
+        })
+    }
+    try {
         const { id } = params;
         const entryData = await prisma.entry.findUnique({
             where: {
@@ -13,7 +18,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
                 user: true
             }
         })
-        if (entryData?.user.clerkId !== user.id) {
+        if (entryData?.user.clerkId !== authenticatedUser.id) {
             return new Response("You do not have permission to delete this entry", {
                 status: 401,
             })
@@ -24,9 +29,10 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
             }
         })
         return new Response(JSON.stringify(entry))
-    } else {
-        return new Response("Please log in to delete an entry", {
-            status: 401,
+    } catch (e) {
+        console.log(e)
+        return new Response("Request cannot be processed.", {
+            status: 500,
         })
     }
 }

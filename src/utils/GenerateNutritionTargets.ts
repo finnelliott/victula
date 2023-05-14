@@ -1,4 +1,4 @@
-import { OpenAIStream, OpenAIStreamPayload } from "../../../../utils/OpenAIStream";
+import { OpenAIStream, OpenAIStreamPayload } from "../utils/OpenAIStream";
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("Missing env var from OpenAI");
@@ -6,7 +6,7 @@ if (!process.env.OPENAI_API_KEY) {
 
 export const runtime = "edge";
 
-export async function POST(request: Request): Promise<Response> {
+export async function generateNutritionTargets(request: Request): Promise<Response> {
   const { gender, age, height, weight, activityLevel, goal } = await request.json();
 
   const payload: OpenAIStreamPayload = {

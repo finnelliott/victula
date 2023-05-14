@@ -1,6 +1,6 @@
 import prisma from "../../../prisma/prismadb";
 import { currentUser } from "@clerk/nextjs";
-import InputDescription from "@/components/application/generate/InputDescription";
+import InputDescription from "@/components/application/generate/DashboardFoodInput";
 import DailySummary from "@/components/application/data/DailySummary";
 import { User } from "@prisma/client";
 
