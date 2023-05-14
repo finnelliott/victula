@@ -5,10 +5,11 @@ export async function POST(request: Request) {
     const user = await currentUser();
     if (user) {
         console.log(user.id)
-        const { carbohydrates, calories, fats, proteins, name } = await request.json();
+        const { carbohydrates, calories, fats, proteins, name, description } = await request.json();
         const entry = await prisma.entry.create({
             data: {
                 name,
+                description,
                 carbohydrates,
                 calories,
                 fats,
