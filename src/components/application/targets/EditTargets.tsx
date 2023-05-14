@@ -11,7 +11,7 @@ export default function EditTargets({ user }: { user: User }) {
     async function handleSaveTargets(e: React.FormEvent) {
         e.preventDefault();
         try {
-            const response = await fetch("/api/user", {
+            const response = await fetch("/api/users", {
                 method: 'PUT',
                 body: JSON.stringify({
                     target_calories: targetCalories,
@@ -29,7 +29,7 @@ export default function EditTargets({ user }: { user: User }) {
     }
     async function handleClearTargets() {
         try {
-            const response = await fetch("/api/user", {
+            const response = await fetch("/api/users", {
                 method: 'PUT',
                 body: JSON.stringify({
                     target_calories: null,

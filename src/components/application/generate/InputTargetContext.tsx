@@ -19,13 +19,12 @@ export default function InputTargetContext() {
         e.preventDefault();
         setGenerating(true);
         try {
-            const res = await fetch("/api/generate", {
+            const res = await fetch("/api/generate/nutrition-targets", {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    type: "nutrition-targets",
                     gender,
                     age,
                     height,

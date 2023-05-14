@@ -10,10 +10,9 @@ export default function DashboardFoodInput() {
     async function submitDescription() {
         setGenerating(true)
         try {
-            const response = await fetch('/api/generate', {
+            const response = await fetch('/api/generate/nutrition-facts', {
                 method: 'POST',
                 body: JSON.stringify({
-                    type: "nutrition-facts",
                     description
                 }),
             })
