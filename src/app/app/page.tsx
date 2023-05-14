@@ -1,6 +1,5 @@
 import prisma from "../../../prisma/prismadb";
 import { currentUser } from "@clerk/nextjs";
-import InputDescription from "@/components/application/generate/InputDescription";
 import DailySummary from "@/components/application/data/DailySummary";
 import { User } from "@prisma/client";
 
@@ -30,7 +29,6 @@ export default async function AppHome({
     return (
         <main className="z-0 relative h-full">
             <div className="mx-auto max-w-3xl px-4 py-8 space-y-8">
-                <InputDescription />
                 <DailySummary entries={entries} selectedDate={selectedDate} user={userData as User} />
             </div>
         </main>

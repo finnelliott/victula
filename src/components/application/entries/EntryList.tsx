@@ -23,6 +23,11 @@ export default async function EntryList({ entries, date } : { entries: Entry[], 
             </div>
         )
     } else {
-        return (<div className="p-8 text-gray-500 text-left">No entries for {new Date(date).toDateString()}. Add items you&apos;ve eaten to your diary to see them appear&nbsp;here.</div>)
+        return (
+        <div className="p-8 text-gray-500 text-left flex items-center justify-between">
+            <div className="flex-1 min-w-0">
+                No entries for {new Date(date).toDateString()}. Add items you&apos;ve eaten to your diary to see them appear&nbsp;here.
+            </div>
+        </div>)
     }
 }

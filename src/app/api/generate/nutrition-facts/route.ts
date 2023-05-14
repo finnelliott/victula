@@ -1,3 +1,4 @@
+import { currentUser } from "@clerk/nextjs/server";
 import { Configuration, OpenAIApi } from "openai";
 
 const configuration = new Configuration({
@@ -5,7 +6,13 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-export async function POST(request: Request) {
+export async function POST(request: Request): Promise<Response> {
+    const authenticatedUser = await currentUser();
+    if (!authenticatedUser) {
+        return new Response("Please log in to generate nutrition facts", {
+            status: 401,
+        })
+    }
     const { description } = await request.json();
 
     const completion = await openai.createChatCompletion({
@@ -34,4 +41,4 @@ export async function POST(request: Request) {
         })
     }
     return new Response(JSON.stringify(completion.data.choices[0].message.content))
-}  
+}

@@ -2,7 +2,7 @@
 import { ArrowLongRightIcon } from "@heroicons/react/24/outline";
 import { useState } from "react"
 
-export default function InputDescription() {
+export default function DashboardFoodInput() {
     const [ generating, setGenerating ] = useState(false)
     const [ submittingEntry, setSubmittingEntry ] = useState(false)
     const [ description, setDescription ] = useState('')

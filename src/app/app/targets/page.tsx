@@ -21,9 +21,6 @@ export default async function AppTargets() {
                         ) : (
                             <>
                             <p className="text-gray-600 text-md">You have not set any targets yet. Please provide as much information as possible in order to set appropriate goals.</p>
-                            {/* <div className="border border-gray-200 bg-gray-50 shadow-inner rounded-lg mt-8 h-96 overflow-hidden">
-                                <TargetChat />
-                            </div> */}
                             <InputTargetContext />
                             </>
                         )}
