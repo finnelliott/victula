@@ -14,12 +14,16 @@ export default function InputTargetContext() {
     const [ targetCarbohydrates, setTargetCarbohydrates ] = useState<string | undefined>()
     const [ targetFats, setTargetFats ] = useState<string | undefined>()
     const [ targetProteins, setTargetProteins ] = useState<string | undefined>()
+    // const [response, setResponse] = useState<string>("");
     async function handleGenerateTargets(e: React.FormEvent) {
         e.preventDefault();
-        setGenerating(true)
+        setGenerating(true);
         try {
-            const response = await fetch("/api/generate/targets", {
+            const res = await fetch("/api/generate/targets", {
                 method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
                 body: JSON.stringify({
                     gender,
                     age,
@@ -28,8 +32,33 @@ export default function InputTargetContext() {
                     activityLevel,
                     goal
                 })
-            }).then(res => res.json());
+            })
+        
+            if (!res.ok) {
+                throw new Error(res.statusText);
+            }
+        
+            // This data is a ReadableStream
+            const data = res.body;
+            if (!data) {
+                return;
+            }
+        
+            const reader = data.getReader();
+            const decoder = new TextDecoder();
+            let done = false;
+            let response = "";
+        
+            while (!done) {
+                const { value, done: doneReading } = await reader.read();
+                done = doneReading;
+                const chunkValue = decoder.decode(value);
+                // setResponse((prev) => prev + chunkValue);
+                response += chunkValue;
+            }
+            alert(response)
             const { target_calories, target_carbohydrates, target_fats, target_proteins } = JSON.parse(response);
+            alert(target_calories)
             setTargetCalories(target_calories);
             setTargetCarbohydrates(target_carbohydrates);
             setTargetFats(target_fats);
@@ -53,6 +82,7 @@ export default function InputTargetContext() {
             })
             if (response.ok) {
                 alert("Targets saved!")
+                location.reload();
             }
         } catch (error) {
             console.error(error)
