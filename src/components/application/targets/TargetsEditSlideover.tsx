@@ -4,12 +4,13 @@ import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { User } from '@prisma/client';
 
-function ManualTargetsUpdate({ user }: { user: User }) {
+function ManualTargetsUpdate({ user, loading, setLoading }: { user: User, loading: boolean, setLoading: React.Dispatch<React.SetStateAction<boolean>> }) {
     const [ targetCalories, setTargetCalories ] = useState(user.target_calories ?? 0);
     const [ targetCarbohydrates, setTargetCarbohydrates ] = useState(user.target_carbohydrates ?? 0);
     const [ targetFats, setTargetFats ] = useState(user.target_fats ?? 0);
     const [ targetProteins, setTargetProteins ] = useState(user.target_proteins ?? 0);
     async function handleUpdateTargets() {
+        setLoading(true);
         try {
             const response = await fetch("/api/users", {
                 method: 'PUT',
@@ -20,12 +21,11 @@ function ManualTargetsUpdate({ user }: { user: User }) {
                     target_proteins: targetProteins
                 })
             })
-            if (response.ok) {
-                alert("Targets saved!")
-            }
         } catch (error) {
             console.error(error)
         }
+        setLoading(false);
+        location.reload();
     }
     return (
         <form onSubmit={(e) => {e.preventDefault();handleUpdateTargets();}} className="space-y-4">
@@ -104,7 +104,7 @@ function ManualTargetsUpdate({ user }: { user: User }) {
     )
 }
 
-function AssistedTargetsUpdate({ user }: { user: User }) {
+function AssistedTargetsUpdate({ user, loading, setLoading }: { user: User, loading: boolean, setLoading: React.Dispatch<React.SetStateAction<boolean>> }) {
     // Context variables
     const [ gender, setGender ] = useState("");
     const [ age, setAge ] = useState(0);
@@ -123,6 +123,7 @@ function AssistedTargetsUpdate({ user }: { user: User }) {
     const [ targetsGenerated, setTargetsGenerated ] = useState(false);
 
     async function handleUpdateTargets() {
+        setLoading(true);
         try {
             const response = await fetch("/api/users", {
                 method: 'PUT',
@@ -133,15 +134,15 @@ function AssistedTargetsUpdate({ user }: { user: User }) {
                     target_proteins: targetProteins
                 })
             })
-            if (response.ok) {
-                alert("Targets saved!")
-            }
         } catch (error) {
             console.error(error)
         }
+        setLoading(false);
+        location.reload();
     }
 
     async function handleGenerateTargets() {
+        setLoading(true);
         try {
             const res = await fetch("/api/generate/nutrition-targets", {
                 method: 'POST',
@@ -179,9 +180,7 @@ function AssistedTargetsUpdate({ user }: { user: User }) {
                 const chunkValue = decoder.decode(value);
                 response += chunkValue;
             }
-            alert(response)
             const { target_calories, target_carbohydrates, target_fats, target_proteins } = JSON.parse(response);
-            alert(target_calories)
             setTargetCalories(target_calories);
             setTargetCarbohydrates(target_carbohydrates);
             setTargetFats(target_fats);
@@ -190,6 +189,7 @@ function AssistedTargetsUpdate({ user }: { user: User }) {
             console.error(error)
         }
         setTargetsGenerated(true)
+        setLoading(false);
     }
 
     return (
@@ -393,6 +393,7 @@ function classNames(...classes: string[]) {
 }
 
 export default function TargetsEditSlideover({ open, setOpen, user }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>>, user: User }) {
+    const [ loading, setLoading ] = useState(false);
     const [ manual, setManual ] = useState(true);
     const tabs = [
         { name: 'Manual', current: manual },
@@ -445,6 +446,15 @@ export default function TargetsEditSlideover({ open, setOpen, user }: { open: bo
                       </div>
                     </div>
                     <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                    {/* Loading overlay */}
+                    {loading && (
+                        <div className="absolute inset-0 bg-white z-10 flex items-center justify-center">
+                            <div className="w-16 h-16 border border-white rounded-full animate-spin">
+                                <div className="border-t-4 rounded-full border-gray-400 absolute left-0 top-0 w-full h-full" />
+                                <span className="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    )}
 
                     {/* Select manual or assisted update interface */}
                     <div className='pb-6'>
@@ -477,10 +487,10 @@ export default function TargetsEditSlideover({ open, setOpen, user }: { open: bo
                     </div>
 
                     {/* Manually update existing targets */}
-                    {manual && <ManualTargetsUpdate user={user} />}
+                    {manual && <ManualTargetsUpdate user={user} loading={loading} setLoading={setLoading} />}
 
                     {/* Assisted update of existing targets */}
-                    {!manual && <AssistedTargetsUpdate user={user} />}
+                    {!manual && <AssistedTargetsUpdate user={user} loading={loading} setLoading={setLoading} />}
                   </div>
                 </div>
                 </Dialog.Panel>
