@@ -27,6 +27,7 @@
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.1",
     "eventsource-parser": "^1.0.0",
+    "langchain": "^0.0.75",
     "micro": "^10.0.1",
     "next": "13.4.1",
     "openai": "^3.2.1",
@@ -36,7 +37,8 @@
     "react-dom": "18.2.0",
     "svix": "^0.85.1",
     "tailwindcss": "3.3.2",
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "dotenv-cli": "^7.2.1",

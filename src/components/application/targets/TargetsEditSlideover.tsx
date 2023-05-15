@@ -180,11 +180,18 @@ function AssistedTargetsUpdate({ user, loading, setLoading }: { user: User, load
                 const chunkValue = decoder.decode(value);
                 response += chunkValue;
             }
-            const { target_calories, target_carbohydrates, target_fats, target_proteins } = JSON.parse(response);
-            setTargetCalories(target_calories);
-            setTargetCarbohydrates(target_carbohydrates);
-            setTargetFats(target_fats);
-            setTargetProteins(target_proteins);
+            const { target_calories, target_carbohydrates, target_fats, target_proteins, error, assumptions } = JSON.parse(response);
+            if (!target_calories || !target_carbohydrates || !target_fats || !target_proteins) {
+                alert("Error generating targets: " + error);
+            } else {
+                if (assumptions) {
+                    alert("Targets generated with assumptions: " + assumptions);
+                }
+                setTargetCalories(target_calories);
+                setTargetCarbohydrates(target_carbohydrates);
+                setTargetFats(target_fats);
+                setTargetProteins(target_proteins);
+            }
         } catch (error) {
             console.error(error)
         }

@@ -2,6 +2,8 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import { z } from "zod";
+import { StructuredOutputParser } from "langchain/output_parsers";
 
 export default function DashboardAddFoodSlideover({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
     const [ description, setDescription ] = useState("");
@@ -45,13 +47,22 @@ export default function DashboardAddFoodSlideover({ open, setOpen }: { open: boo
                 const chunkValue = decoder.decode(value);
                 response += chunkValue;
             }
-            const { name, calories, fats, carbohydrates, proteins } = JSON.parse(response);
-            setName(name);
-            setCalories(calories);
-            setFats(fats);
-            setCarbohydrates(carbohydrates);
-            setProteins(proteins);
+
+            const { name, calories, fats, carbohydrates, proteins, error, assumptions } = JSON.parse(response);
+            if (!name || !calories || !fats || !carbohydrates || !proteins) {
+                alert(error);
+            } else {
+                if (assumptions) {
+                    alert("Nutrition facts generated with assumptions: " + assumptions);
+                }
+                setName(name);
+                setCalories(calories);
+                setFats(fats);
+                setCarbohydrates(carbohydrates);
+                setProteins(proteins);
+            }
         } catch (error) {
+            alert("We're sorry, we couldn't generate nutrition facts for this food.");
             console.error(error)
         }
         setLoading(false);
