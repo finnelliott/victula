@@ -14,7 +14,7 @@ export async function POST(request: Request): Promise<Response> {
             status: 401,
         })
     }
-    const { gender, age, height, weight, activityLevel, goal } = await request.json();
+    const { gender, age, height, weight, activityLevel, weightGoals } = await request.json();
     
     const payload: OpenAIStreamPayload = {
         model: "gpt-4",
@@ -25,7 +25,7 @@ export async function POST(request: Request): Promise<Response> {
             Age: ${age}
             Gender: ${gender}
             Activity Level: ${activityLevel}
-            Goal: ${goal}
+            Goal: ${weightGoals}
             Based on this information, please provide daily nutrition targets as a JSON object with the following types: 
             {
                 target_calories: number (kcal),
