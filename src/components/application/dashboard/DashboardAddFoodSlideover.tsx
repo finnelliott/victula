@@ -3,7 +3,7 @@ import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
-export default function CreateEntrySlideover({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
+export default function DashboardAddFoodSlideover({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
     const [ description, setDescription ] = useState("");
     const [ name, setName ] = useState("");
     const [ calories, setCalories ] = useState(0);

@@ -8,7 +8,7 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function EntryListItemDropdown({ entry }: { entry: any }) {
+export default function DashboardDiaryEntryDropdown({ entry }: { entry: any }) {
     async function deleteEntry(id: string) {
         const res = await fetch(`/api/entries/${id}`, {
             method: 'DELETE',
