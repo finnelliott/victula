@@ -9,23 +9,62 @@ export async function POST(request: Request) {
         })
     }
     try {
-        const { carbohydrates, calories, fats, proteins, name, description } = await request.json();
-        const entry = await prisma.entry.create({
-            data: {
-                name,
-                description,
-                carbohydrates,
-                calories,
-                fats,
-                proteins,
-                user: {
-                    connect: {
-                        clerkId: authenticatedUser.id
+        const { carbohydrates, calories, fats, proteins, name, description, recipe_id } = await request.json();
+        if (recipe_id) {
+            const entry = await prisma.entry.create({
+                data: {
+                    name,
+                    description,
+                    carbohydrates,
+                    calories,
+                    fats,
+                    proteins,
+                    user: {
+                        connect: {
+                            clerkId: authenticatedUser.id
+                        }
+                    },
+                    recipe: {
+                        connect: {
+                            id: recipe_id
+                        },
                     }
-                }
-            },
-        })
-        return new Response(JSON.stringify(entry))
+                },
+            })
+            return new Response(JSON.stringify(entry))
+        } else {
+            const entry = await prisma.entry.create({
+                data: {
+                    name,
+                    description,
+                    carbohydrates,
+                    calories,
+                    fats,
+                    proteins,
+                    user: {
+                        connect: {
+                            clerkId: authenticatedUser.id
+                        }
+                    },
+                    recipe: {
+                        create: {
+                            name,
+                            description,
+                            user: {
+                                connect: {
+                                    clerkId: authenticatedUser.id
+                                }
+                            },
+                            calories,
+                            carbohydrates,
+                            fats,
+                            proteins,
+                        },
+                    }
+                },
+            })
+            return new Response(JSON.stringify(entry))
+        }
     } catch (e) {
         console.log(e)
         return new Response("Request cannot be processed.", {
