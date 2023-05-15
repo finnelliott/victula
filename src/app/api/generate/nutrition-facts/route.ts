@@ -27,8 +27,10 @@ export async function POST(request: Request): Promise<Response> {
             - fats (g)
             - carbohydrates (g)
             - proteins (g)
-            - notes (if needed)
-            If uncertain, return: { error: true }`
+            - assumptions (use this if the user's input was inspecific)
+            If uncertain, return a JSON object with:
+            - error (explanation of why it was not possible to estimate the nutritional value
+            Only return the JSON object. Don't provide any notes or explanation.`
         }, {
             role: "user",
             content: description

@@ -19,21 +19,22 @@ export async function POST(request: Request): Promise<Response> {
     const payload: OpenAIStreamPayload = {
         model: "gpt-4",
         messages: [
-            { role: "user", content: `Here is some information about me.
-            Height: ${height}
-            Weight: ${weight}
-            Age: ${age}
-            Gender: ${gender}
-            Activity Level: ${activityLevel}
-            Goal: ${weightGoals}
-            Based on this information, please provide daily nutrition targets as a JSON object with the following types: 
-            {
-                target_calories: number (kcal),
-                target_fats: number (g),
-                target_carbohydrates: number (g),
-                target_proteins: number (g),
-            }
-            Only return the JSON object. Don't provide any notes or explanation. If you cannot estimate the appropriate targets with a moderate level of certainty, return a JSON object { error: true }
+            { role: "user", content: `Provide daily nutrition targets as a JSON object based on the given information about me:
+            - Height: ${height}
+            - Weight: ${weight}
+            - Age: ${age}
+            - Gender: ${gender}
+            - Activity Level: ${activityLevel}
+            - Goal: ${weightGoals}
+            The JSON object should include:
+            - target_calories
+            - target_fats
+            - target_carbohydrates
+            - target_proteins
+            - assumptions (use this if the user's input was inspecific)
+            If uncertain, return a JSON object with:
+            - error (explanation of why it was not possible to estimate the nutritional value
+            Only return the JSON object. Don't provide any notes or explanation.
             ` }
         ],
         temperature: 0,

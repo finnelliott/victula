@@ -13,21 +13,58 @@ export default function DashboardEditFoodSlideover({ entry, open, setOpen }: { e
     const [ proteins, setProteins ] = useState(entry.proteins ?? 0);
     const [ loading, setLoading ] = useState(false);
     async function handleGenerateNutritionFacts() {
-        setLoading(true)
-        const response = await fetch('/api/generate/nutrition-facts', {
-            method: 'POST',
-            body: JSON.stringify({
-                description
-            }),
-        })
-        const data = await response.json()
-        const { name, calories, carbohydrates, fats, proteins } = JSON.parse(data)
-        setName(name)
-        setCalories(calories)
-        setCarbohydrates(carbohydrates)
-        setFats(fats)
-        setProteins(proteins)
-        setLoading(false)
+        setLoading(true);
+        try {
+            const res = await fetch("/api/generate/nutrition-facts", {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    description
+                })
+            })
+        
+            if (!res.ok) {
+                throw new Error(res.statusText);
+            }
+        
+            // This data is a ReadableStream
+            const data = res.body;
+            if (!data) {
+                return;
+            }
+        
+            const reader = data.getReader();
+            const decoder = new TextDecoder();
+            let done = false;
+            let response = "";
+        
+            while (!done) {
+                const { value, done: doneReading } = await reader.read();
+                done = doneReading;
+                const chunkValue = decoder.decode(value);
+                response += chunkValue;
+            }
+
+            const { name, calories, fats, carbohydrates, proteins, error, assumptions } = JSON.parse(response);
+            if (!name || !calories || !fats || !carbohydrates || !proteins) {
+                alert(error);
+            } else {
+                if (assumptions) {
+                    alert(assumptions);
+                }
+                setName(name);
+                setCalories(calories);
+                setFats(fats);
+                setCarbohydrates(carbohydrates);
+                setProteins(proteins);
+            }
+        } catch (error) {
+            alert("We're sorry, we couldn't generate nutrition facts for this food.");
+            console.error(error)
+        }
+        setLoading(false);
     }
     async function handleSaveEntry() {
         setLoading(true);
@@ -82,7 +119,7 @@ export default function DashboardEditFoodSlideover({ entry, open, setOpen }: { e
                     <div className="px-4 sm:px-6">
                       <div className="flex items-start justify-between">
                         <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
-                          Add food / meal
+                          Edit food / meal
                         </Dialog.Title>
                         <div className="ml-3 flex h-7 items-center">
                           <button
