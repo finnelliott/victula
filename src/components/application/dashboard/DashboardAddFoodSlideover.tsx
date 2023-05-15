@@ -3,14 +3,16 @@ import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 
-export default function CreateEntrySlideover({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
+export default function DashboardAddFoodSlideover({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
     const [ description, setDescription ] = useState("");
     const [ name, setName ] = useState("");
     const [ calories, setCalories ] = useState(0);
     const [ carbohydrates, setCarbohydrates ] = useState(0);
     const [ fats, setFats ] = useState(0);
     const [ proteins, setProteins ] = useState(0);
+    const [ loading, setLoading ] = useState(false);
     async function handleGenerateNutritionFacts() {
+        setLoading(true)
         const response = await fetch('/api/generate/nutrition-facts', {
             method: 'POST',
             body: JSON.stringify({
@@ -24,8 +26,10 @@ export default function CreateEntrySlideover({ open, setOpen }: { open: boolean,
         setCarbohydrates(carbohydrates)
         setFats(fats)
         setProteins(proteins)
+        setLoading(false)
     }
     async function handleSaveEntry() {
+        setLoading(true);
         const response = await fetch('/api/entries', {
             method: 'POST',
             body: JSON.stringify({
@@ -39,10 +43,11 @@ export default function CreateEntrySlideover({ open, setOpen }: { open: boolean,
         })
         const data = await response.json()
         if (data.error) {
-            alert(data.error)
+            console.log(data.error)
         } else {
             location.reload()
-        }
+        };
+        setLoading(false);
     }
     return (
     <Transition.Root show={open} as={Fragment}>
@@ -91,6 +96,15 @@ export default function CreateEntrySlideover({ open, setOpen }: { open: boolean,
                       </div>
                     </div>
                     <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                    {/* Loading overlay */}
+                    {loading && (
+                        <div className="absolute inset-0 bg-white z-10 flex items-center justify-center">
+                            <div className="w-16 h-16 border border-white rounded-full animate-spin">
+                                <div className="border-t-4 rounded-full border-gray-400 absolute left-0 top-0 w-full h-full" />
+                                <span className="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    )}
                     {/* Description of the food */}
                     <form onSubmit={(e) => {e.preventDefault();handleGenerateNutritionFacts();}}>
                         <div>

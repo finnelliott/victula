@@ -1,18 +1,18 @@
 "use client";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
-import CreateEntrySlideover from "./CreateEntrySlideover";
 import { Entry } from "@prisma/client";
+import DashboardAddFoodSlideover from "./DashboardAddFoodSlideover";
 
 function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function DashboardEntryListHeading({ entries }: { entries: Entry[] }) {
+export default function DashboardDiaryHeader({ entries }: { entries: Entry[] }) {
     const [createEntryModalOpen, setCreateEntryModalOpen] = useState(false);
     return (
-        <div className="flex w-full justify-between items-center p-8 border-b border-gray-300">
-            <CreateEntrySlideover open={createEntryModalOpen} setOpen={setCreateEntryModalOpen} />
+        <div className="flex w-full justify-between items-center p-8">
+            <DashboardAddFoodSlideover open={createEntryModalOpen} setOpen={setCreateEntryModalOpen} />
                 <h2 className="text-2xl font-semibold text-gray-900">Diary</h2>
                 <button
                     type="button"

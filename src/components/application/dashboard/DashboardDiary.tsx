@@ -1,9 +1,12 @@
-import EntryListItemDropdown from "./EntryListItemDropdown"
+import DashboardDiaryEntryDropdown from "./DashboardDiaryEntryDropdown"
 import { Entry } from "@prisma/client"
 
-export default async function EntryList({ entries, date } : { entries: Entry[], date: Date }) {
-    if (entries && entries.length > 0) {
+export default function DashboardDiary({ entries, date } : { entries: Entry[], date: Date }) {
+    const hasEntries = entries && entries.length > 0
+
+    if (hasEntries) {
         return (
+            // If there are entries, render them
             <div className="flex flex-col h-full w-full divide-y divide-gray-300">
                 {entries.map((entry) => (
                     <div key={entry.id} className="w-full p-8 flex space-x-4 justify-between items-center">
@@ -17,17 +20,19 @@ export default async function EntryList({ entries, date } : { entries: Entry[], 
                             </div>
                             {entry.description && <div className="max-w-full"><p className="text-gray-600 text-xs mt-2 truncate leading-5 h-5">{entry.description}</p></div>}
                         </div>
-                        <EntryListItemDropdown entry={entry} />
+                        <DashboardDiaryEntryDropdown entry={entry} />
                     </div>
                 ))}
             </div>
         )
     } else {
         return (
-        <div className="p-8 text-gray-500 text-left flex items-center justify-between">
-            <div className="flex-1 min-w-0">
-                No entries for {new Date(date).toDateString()}. Add items you&apos;ve eaten to your diary to see them appear&nbsp;here.
+            // If there are no entries, render a message
+            <div className="p-8 text-gray-500 text-left flex items-center justify-between">
+                <div className="flex-1 min-w-0">
+                    No entries for {new Date(date).toDateString()}. Add items you&apos;ve eaten to your diary to see them appear&nbsp;here.
+                </div>
             </div>
-        </div>)
+        )
     }
 }

@@ -18,6 +18,7 @@ model User {
   target_carbohydrates Float?
   target_fats          Float?
   target_proteins      Float?
+  targets_context      String?
 }
 
 model Entry {
