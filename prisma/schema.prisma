@@ -14,6 +14,7 @@ model User {
   id      String  @id @default(auto()) @map("_id") @db.ObjectId
   clerkId String? @unique
   entries Entry[]
+  recipes Recipe[]
   target_calories      Float?
   target_carbohydrates Float?
   target_fats          Float?
@@ -28,10 +29,27 @@ model Entry {
   created_at    DateTime @default(now())
   updated_at    DateTime @updatedAt
   consumed_at   DateTime @default(now())
+  recipe        Recipe?  @relation(fields: [recipe_id], references: [id])
+  recipe_id     String?  @db.ObjectId
   name          String?
   description   String?
   calories      Float?
   carbohydrates Float?
   fats          Float?
   proteins      Float?
+}
+
+model Recipe {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  user          User     @relation(fields: [user_id], references: [id])
+  user_id       String   @db.ObjectId
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  name          String?
+  description   String?
+  calories      Float?
+  carbohydrates Float?
+  fats          Float?
+  proteins      Float?
+  entries       Entry[]
 }

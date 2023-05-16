@@ -12,6 +12,8 @@ export default function DashboardEditFoodSlideover({ entry, open, setOpen }: { e
     const [ fats, setFats ] = useState(entry.fats ?? 0);
     const [ proteins, setProteins ] = useState(entry.proteins ?? 0);
     const [ loading, setLoading ] = useState(false);
+    const [ consumedAtDate, setConsumedAtDate ] = useState(new Date(entry.consumed_at).toISOString().split("T")[0] ?? new Date().toISOString().split("T")[0]);
+    const [ consumedAtTime, setConsumedAtTime ] = useState(new Date(entry.consumed_at).toTimeString().slice(0, 5) ?? new Date().toTimeString().slice(0, 5));
     async function handleGenerateNutritionFacts() {
         setLoading(true);
         try {
@@ -73,6 +75,7 @@ export default function DashboardEditFoodSlideover({ entry, open, setOpen }: { e
             body: JSON.stringify({
                 name,
                 description,
+                consumed_at: `${consumedAtDate}T${consumedAtTime}`,
                 calories,
                 carbohydrates,
                 fats,
@@ -119,7 +122,7 @@ export default function DashboardEditFoodSlideover({ entry, open, setOpen }: { e
                     <div className="px-4 sm:px-6">
                       <div className="flex items-start justify-between">
                         <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
-                          Edit food / meal
+                          Edit entry
                         </Dialog.Title>
                         <div className="ml-3 flex h-7 items-center">
                           <button
@@ -143,6 +146,43 @@ export default function DashboardEditFoodSlideover({ entry, open, setOpen }: { e
                             </div>
                         </div>
                     )}
+
+                    {/* Select date & time of consumption */}
+                    <div className="pb-6 grid grid-cols-2 gap-4">
+                        <div>
+                            <label htmlFor="consumed_at_date" className="block text-sm font-medium text-gray-700">
+                                Consumption date
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="date"
+                                    id="consumed_at_date"
+                                    name="consumed_at_date"
+                                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="2 fried eggs on 2 slices of toast with 1 tsp of butter"
+                                    value={consumedAtDate}
+                                    onChange={(e) => setConsumedAtDate(new Date(e.target.value).toISOString().split("T")[0])}
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label htmlFor="consumed_at_time" className="block text-sm font-medium text-gray-700">
+                                Consumption time
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="time"
+                                    id="consumed_at_time"
+                                    name="consumed_at_time"
+                                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="2 fried eggs on 2 slices of toast with 1 tsp of butter"
+                                    value={consumedAtTime}
+                                    onChange={(e) => setConsumedAtTime(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
                     {/* Description of the food */}
                     <form onSubmit={(e) => {e.preventDefault();handleGenerateNutritionFacts();}}>
                         <div>

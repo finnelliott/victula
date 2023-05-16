@@ -70,6 +70,7 @@ export default async function AppDashboard({
                 <div className="border-gray-300 bg-white border rounded-lg divide-y divide-gray-300">
                     <DashboardDiaryHeader 
                         entries={entries}
+                        date={selectedDateString}
                     />
                     <DashboardDiary
                         entries={entries}
