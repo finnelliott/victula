@@ -101,7 +101,7 @@ function CreateEntryFromPreviousRecipe({ setLoading, consumedAtDate, consumedAtT
                                 </div>
                                 <div className="text-sm text-gray-500">
                                     <p>
-                                        Try adjusting your search or filter to find what you're looking&nbsp;for.
+                                        Try adjusting your search or filter to find what you&apos;re looking&nbsp;for.
                                     </p>
                                 </div>
                             </div>
