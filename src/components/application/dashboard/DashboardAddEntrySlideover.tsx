@@ -333,6 +333,10 @@ export default function DashboardAddEntrySlideover({ open, setOpen, date }: { op
     const [ previous, setPrevious ] = useState(false);
     const [ consumedAtDate, setConsumedAtDate ] = useState(date);
     const [ consumedAtTime, setConsumedAtTime ] = useState(new Date().toTimeString().slice(0, 5));
+    useEffect(() => {
+        setConsumedAtDate(date);
+        setConsumedAtTime(new Date().toTimeString().slice(0, 5));
+    }, [date]);
     const tabs = [
         { name: 'New recipe', current: !previous },
         { name: 'Use previous', current: previous },
