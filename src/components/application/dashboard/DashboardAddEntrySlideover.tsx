@@ -1,99 +1,135 @@
 "use client";
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { XMarkIcon } from '@heroicons/react/24/outline'
-import DashboardRecipeSearchPalette from './DashboardRecipeSearchPalette';
+import { XMarkIcon, PlusCircleIcon } from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import { Recipe } from '@prisma/client';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-function CreateEntryFromPreviousRecipe({ setLoading }: { setLoading: React.Dispatch<React.SetStateAction<boolean>> }) {
-    const [ description, setDescription ] = useState("");
-    const [ name, setName ] = useState("");
-    const [ calories, setCalories ] = useState(0);
-    const [ carbohydrates, setCarbohydrates ] = useState(0);
-    const [ fats, setFats ] = useState(0);
-    const [ proteins, setProteins ] = useState(0);
-    async function handleGenerateNutritionFacts() {
-        setLoading(true);
-        try {
-            const res = await fetch("/api/generate/nutrition-facts", {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    description
-                })
-            })
-        
-            if (!res.ok) {
-                throw new Error(res.statusText);
-            }
-        
-            // This data is a ReadableStream
-            const data = res.body;
-            if (!data) {
-                return;
-            }
-        
-            const reader = data.getReader();
-            const decoder = new TextDecoder();
-            let done = false;
-            let response = "";
-        
-            while (!done) {
-                const { value, done: doneReading } = await reader.read();
-                done = doneReading;
-                const chunkValue = decoder.decode(value);
-                response += chunkValue;
-            }
+async function getRecipes(query?: string) {
+    return await fetch(`/api/recipes${query ? `?query=${query}` : ''}`).then((response) => response.json()) as Recipe[]
+}
 
-            const { name, calories, fats, carbohydrates, proteins, error, assumptions } = JSON.parse(response);
-            if (!name || !calories || !fats || !carbohydrates || !proteins) {
-                alert(error);
-            } else {
-                if (assumptions) {
-                    alert("Nutrition facts generated with assumptions: " + assumptions);
-                }
-                setName(name);
-                setCalories(calories);
-                setFats(fats);
-                setCarbohydrates(carbohydrates);
-                setProteins(proteins);
-            }
-        } catch (error) {
-            alert("We're sorry, we couldn't generate nutrition facts for this food.");
-            console.error(error)
+function CreateEntryFromPreviousRecipe({ setLoading }: { setLoading: React.Dispatch<React.SetStateAction<boolean>> }) {
+    const [query, setQuery] = useState('')
+
+    const [recipes, setRecipes] = useState<Recipe[] | null>();
+
+    useEffect(() => {
+        async function fetchRecipes() {
+            const data = await getRecipes();
+            setRecipes(data);
         }
-        setLoading(false);
-    }
-    async function handleSaveEntry() {
+        fetchRecipes();
+    }, []);
+
+    useEffect(() => {
+        async function fetchRecipes() {
+            const data = await getRecipes(query);
+            setRecipes(data);
+        }
+        fetchRecipes();
+    }, [query]);
+
+    async function handleSaveEntry(recipe: Recipe) {
         setLoading(true);
         const response = await fetch('/api/entries', {
             method: 'POST',
             body: JSON.stringify({
-                name,
-                description,
-                calories,
-                carbohydrates,
-                fats,
-                proteins,
+                recipe_id: recipe.id,
+                name: recipe.name,
+                description: recipe.description,
+                calories: recipe.calories,
+                carbohydrates: recipe.carbohydrates,
+                fats: recipe.fats,
+                proteins: recipe.proteins,
             }),
         })
         const data = await response.json()
         if (data.error) {
             console.log(data.error)
+            alert("Sorry, there was an error saving your entry.")
         } else {
             location.reload()
         };
         setLoading(false);
     }
+
     return (
+    <div>
         <div>
-            <DashboardRecipeSearchPalette />
+            <label htmlFor="search" className="sr-only">
+                Search
+            </label>
+            <div className="relative mt-2 rounded-md shadow-sm">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                </div>
+                <input
+                    type="text"
+                    name="search"
+                    id="search"
+                    className="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    value={query}
+                    onChange={(event) => setQuery(event.target.value)}
+                />
+            </div>
         </div>
+        <div className="mt-4">
+            <ul className="divide-y divide-gray-200">
+                {!recipes ? 
+                    <li className="py-4">
+                        <div className="flex space-x-3">
+                            <div className="flex-1 space-y-1">
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-sm font-medium">Loading...</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                :
+                recipes?.length === 0 ? (
+                    <li className="py-4">
+                        <div className="flex space-x-3">
+                            <div className="flex-1 space-y-1">
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-sm font-medium">No results found</h3>
+                                </div>
+                                <div className="text-sm text-gray-500">
+                                    <p>
+                                        Try adjusting your search or filter to find what you're looking&nbsp;for.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                ) : (
+                    recipes?.map((item) => (
+                        <li key={item.id} className="py-4">
+                            <div className="flex space-x-3 w-full">
+                                <div className="flex-1 space-y-1">
+                                    <h3 className="text-sm font-medium">{item.name}</h3>
+                                    <p className="text-sm text-gray-500 pt-1">{item.description}</p>
+                                    <p className="text-sm text-gray-400">{item.calories}kcal | {item.carbohydrates}g Carbs | {item.proteins}g Protein | {item.fats}g Fats</p>
+                                </div>
+                                <button
+                                    onClick={() => handleSaveEntry(item)}
+                                    type="button"
+                                    className="ml-4 flex-none text-gray-300 hover:text-gray-400"
+                                >
+                                    <span className="sr-only">Add</span>
+                                    <PlusCircleIcon className="w-5 h-5" />
+                                </button>
+                            </div>
+                        </li>
+                    ))
+                )}
+            </ul>
+        </div>
+    </div>
     )
 }
 

@@ -57,12 +57,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
                 carbohydrates,
                 calories,
                 fats,
-                proteins,
-                user: {
-                    connect: {
-                        clerkId: authenticatedUser.id
-                    }
-                }
+                proteins
             },
         })
         return new Response(JSON.stringify(entry))
