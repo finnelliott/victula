@@ -46,7 +46,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     }
     try {
         const { id } = params;
-        const { carbohydrates, calories, fats, proteins, name, description } = await request.json();
+        const { carbohydrates, calories, fats, proteins, name, description, consumed_at } = await request.json();
         const entry = await prisma.entry.update({
             where: {
                 id
@@ -54,6 +54,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
             data: {
                 name,
                 description,
+                consumed_at: new Date(consumed_at),
                 carbohydrates,
                 calories,
                 fats,

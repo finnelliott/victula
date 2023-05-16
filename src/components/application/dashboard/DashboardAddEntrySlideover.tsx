@@ -13,7 +13,7 @@ async function getRecipes(query?: string) {
     return await fetch(`/api/recipes${query ? `?query=${query}` : ''}`).then((response) => response.json()) as Recipe[]
 }
 
-function CreateEntryFromPreviousRecipe({ setLoading }: { setLoading: React.Dispatch<React.SetStateAction<boolean>> }) {
+function CreateEntryFromPreviousRecipe({ setLoading, consumedAtDate, consumedAtTime }: { setLoading: React.Dispatch<React.SetStateAction<boolean>>, consumedAtDate: string, consumedAtTime: string }) {
     const [query, setQuery] = useState('')
 
     const [recipes, setRecipes] = useState<Recipe[] | null>();
@@ -40,6 +40,7 @@ function CreateEntryFromPreviousRecipe({ setLoading }: { setLoading: React.Dispa
             method: 'POST',
             body: JSON.stringify({
                 recipe_id: recipe.id,
+                consumed_at: `${consumedAtDate}T${consumedAtTime}`,
                 name: recipe.name,
                 description: recipe.description,
                 calories: recipe.calories,
@@ -133,7 +134,7 @@ function CreateEntryFromPreviousRecipe({ setLoading }: { setLoading: React.Dispa
     )
 }
 
-function CreateEntryFromNewRecipe({ setLoading }: { setLoading: React.Dispatch<React.SetStateAction<boolean>> }) {
+function CreateEntryFromNewRecipe({ setLoading, consumedAtDate, consumedAtTime }: { setLoading: React.Dispatch<React.SetStateAction<boolean>>, consumedAtDate: string, consumedAtTime: string }) {
     const [ description, setDescription ] = useState("");
     const [ name, setName ] = useState("");
     const [ calories, setCalories ] = useState(0);
@@ -200,6 +201,7 @@ function CreateEntryFromNewRecipe({ setLoading }: { setLoading: React.Dispatch<R
             method: 'POST',
             body: JSON.stringify({
                 name,
+                consumed_at: `${consumedAtDate}T${consumedAtTime}`,
                 description,
                 calories,
                 carbohydrates,
@@ -326,9 +328,11 @@ function CreateEntryFromNewRecipe({ setLoading }: { setLoading: React.Dispatch<R
     )
 }
 
-export default function DashboardAddEntrySlideover({ open, setOpen }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
+export default function DashboardAddEntrySlideover({ open, setOpen, date }: { open: boolean, setOpen: React.Dispatch<React.SetStateAction<boolean>>, date: string }) {
     const [ loading, setLoading ] = useState(false);
     const [ previous, setPrevious ] = useState(false);
+    const [ consumedAtDate, setConsumedAtDate ] = useState(date);
+    const [ consumedAtTime, setConsumedAtTime ] = useState(new Date().toTimeString().slice(0, 5));
     const tabs = [
         { name: 'New recipe', current: !previous },
         { name: 'Use previous', current: previous },
@@ -390,6 +394,42 @@ export default function DashboardAddEntrySlideover({ open, setOpen }: { open: bo
                         </div>
                     )}
 
+                    {/* Select date & time of consumption */}
+                    <div className="pb-6 grid grid-cols-2 gap-4">
+                        <div>
+                            <label htmlFor="consumed_at_date" className="block text-sm font-medium text-gray-700">
+                                Consumption date
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="date"
+                                    id="consumed_at_date"
+                                    name="consumed_at_date"
+                                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="2 fried eggs on 2 slices of toast with 1 tsp of butter"
+                                    value={consumedAtDate}
+                                    onChange={(e) => setConsumedAtDate(new Date(e.target.value).toISOString().split("T")[0])}
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label htmlFor="consumed_at_time" className="block text-sm font-medium text-gray-700">
+                                Consumption time
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                    type="time"
+                                    id="consumed_at_time"
+                                    name="consumed_at_time"
+                                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="2 fried eggs on 2 slices of toast with 1 tsp of butter"
+                                    value={consumedAtTime}
+                                    onChange={(e) => setConsumedAtTime(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
                     {/* Select new or existing recipe */}
                     <div className='pb-6'>
                         <div className="block border border-gray-300 rounded-lg">
@@ -423,10 +463,10 @@ export default function DashboardAddEntrySlideover({ open, setOpen }: { open: bo
                     {
                         previous ?
                         // If previous selected, render the form for creating a new entry from a previous recipe
-                        <CreateEntryFromPreviousRecipe setLoading={setLoading} />
+                        <CreateEntryFromPreviousRecipe setLoading={setLoading} consumedAtDate={consumedAtDate} consumedAtTime={consumedAtTime} />
                         :
                         // If new recipe selected, render the form for creating a new entry from a new recipe
-                        <CreateEntryFromNewRecipe setLoading={setLoading} />
+                        <CreateEntryFromNewRecipe setLoading={setLoading} consumedAtDate={consumedAtDate} consumedAtTime={consumedAtTime} />
                     }
 
                   </div>

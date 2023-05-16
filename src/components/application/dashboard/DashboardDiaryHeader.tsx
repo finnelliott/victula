@@ -8,11 +8,11 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function DashboardDiaryHeader({ entries }: { entries: Entry[] }) {
+export default function DashboardDiaryHeader({ entries, date }: { entries: Entry[], date: string }) {
     const [addEntryModalOpen, setAddEntryModalOpen] = useState(false);
     return (
         <div className="flex w-full justify-between items-center p-8">
-            <DashboardAddEntrySlideover open={addEntryModalOpen} setOpen={setAddEntryModalOpen} />
+            <DashboardAddEntrySlideover open={addEntryModalOpen} setOpen={setAddEntryModalOpen} date={date} />
                 <h2 className="text-2xl font-semibold text-gray-900">Diary</h2>
                 <button
                     type="button"

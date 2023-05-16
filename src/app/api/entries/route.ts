@@ -9,12 +9,13 @@ export async function POST(request: Request) {
         })
     }
     try {
-        const { carbohydrates, calories, fats, proteins, name, description, recipe_id } = await request.json();
+        const { carbohydrates, calories, fats, proteins, name, description, recipe_id, consumed_at } = await request.json();
         if (recipe_id) {
             const entry = await prisma.entry.create({
                 data: {
                     name,
                     description,
+                    consumed_at: new Date(consumed_at),
                     carbohydrates,
                     calories,
                     fats,
@@ -37,6 +38,7 @@ export async function POST(request: Request) {
                 data: {
                     name,
                     description,
+                    consumed_at: new Date(consumed_at),
                     carbohydrates,
                     calories,
                     fats,
