@@ -13,7 +13,7 @@ async function getRecipes(query?: string) {
     return await fetch(`/api/recipes${query ? `?query=${query}` : ''}`).then((response) => response.json()) as Recipe[]
 }
 
-function CreateEntryFromPreviousRecipe({ setLoading, consumedAtDate, consumedAtTime }: { setLoading: React.Dispatch<React.SetStateAction<boolean>>, consumedAtDate: string, consumedAtTime: string }) {
+function CreateEntryFromPreviousRecipe({ setLoading, consumedAtDate, consumedAtTime, setOpen }: { setLoading: React.Dispatch<React.SetStateAction<boolean>>, consumedAtDate: string, consumedAtTime: string, setOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
     const [query, setQuery] = useState('')
 
     const [recipes, setRecipes] = useState<Recipe[] | null>();
@@ -54,6 +54,7 @@ function CreateEntryFromPreviousRecipe({ setLoading, consumedAtDate, consumedAtT
             console.log(data.error)
             alert("Sorry, there was an error saving your entry.")
         } else {
+            setOpen(false);
             location.reload()
         };
         setLoading(false);
@@ -134,7 +135,7 @@ function CreateEntryFromPreviousRecipe({ setLoading, consumedAtDate, consumedAtT
     )
 }
 
-function CreateEntryFromNewRecipe({ setLoading, consumedAtDate, consumedAtTime }: { setLoading: React.Dispatch<React.SetStateAction<boolean>>, consumedAtDate: string, consumedAtTime: string }) {
+function CreateEntryFromNewRecipe({ setLoading, consumedAtDate, consumedAtTime, setOpen }: { setLoading: React.Dispatch<React.SetStateAction<boolean>>, consumedAtDate: string, consumedAtTime: string, setOpen: React.Dispatch<React.SetStateAction<boolean>> }) {
     const [ description, setDescription ] = useState("");
     const [ name, setName ] = useState("");
     const [ calories, setCalories ] = useState(0);
@@ -213,6 +214,7 @@ function CreateEntryFromNewRecipe({ setLoading, consumedAtDate, consumedAtTime }
         if (data.error) {
             console.log(data.error)
         } else {
+            setOpen(false);
             location.reload()
         };
         setLoading(false);
@@ -467,10 +469,10 @@ export default function DashboardAddEntrySlideover({ open, setOpen, date }: { op
                     {
                         previous ?
                         // If previous selected, render the form for creating a new entry from a previous recipe
-                        <CreateEntryFromPreviousRecipe setLoading={setLoading} consumedAtDate={consumedAtDate} consumedAtTime={consumedAtTime} />
+                        <CreateEntryFromPreviousRecipe setLoading={setLoading} consumedAtDate={consumedAtDate} consumedAtTime={consumedAtTime} setOpen={setOpen} />
                         :
                         // If new recipe selected, render the form for creating a new entry from a new recipe
-                        <CreateEntryFromNewRecipe setLoading={setLoading} consumedAtDate={consumedAtDate} consumedAtTime={consumedAtTime} />
+                        <CreateEntryFromNewRecipe setLoading={setLoading} consumedAtDate={consumedAtDate} consumedAtTime={consumedAtTime} setOpen={setOpen} />
                     }
 
                   </div>

@@ -86,6 +86,7 @@ export default function DashboardEditFoodSlideover({ entry, open, setOpen }: { e
         if (data.error) {
             console.log(data.error)
         } else {
+            setOpen(false);
             location.reload()
         };
         setLoading(false);
