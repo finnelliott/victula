@@ -19,27 +19,6 @@ Assumptions: ${assumptions}`;
 
 export async function POST(request: Request) {
     const { description } = await request.json();
-    const payload = {
-        model: "gpt-3.5-turbo",
-        prompt: `As NutritionGPT, estimate nutritional value of a described meal in a JSON object with:
-            - name (≤50 chars)
-            - calories (kcal)
-            - fats (g)
-            - carbohydrates (g)
-            - proteins (g)
-            - assumptions (use this if the user's input was inspecific)
-            If uncertain, return a JSON object with:
-            - error (explanation of why it was not possible to estimate the nutritional value
-            Only return the JSON object. Don't provide any notes or explanation.
-        `,
-        temperature: 0,
-        top_p: 1,
-        frequency_penalty: 0,
-        presence_penalty: 0,
-        max_tokens: 1000,
-        stream: false,
-        n: 1,
-    };
     const completion = await openai.createChatCompletion({
         model: "gpt-4",
         messages: [
@@ -60,5 +39,7 @@ export async function POST(request: Request) {
     ],
     });
     const response = completion.data.choices[0].message ? formatResponse(completion.data.choices[0].message.content) : "Sorry we were unable to generate nutrition facts for this meal."
-    return new Response(response);
+    return new Response(JSON.stringify({
+        response
+    }));
 }
