@@ -128,7 +128,7 @@ export default function DashboardEditFoodSlideover({ entry, open, setOpen }: { e
                         <div className="ml-3 flex h-7 items-center">
                           <button
                             type="button"
-                            className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                             onClick={() => setOpen(false)}
                           >
                             <span className="sr-only">Close panel</span>
@@ -159,7 +159,7 @@ export default function DashboardEditFoodSlideover({ entry, open, setOpen }: { e
                                     type="date"
                                     id="consumed_at_date"
                                     name="consumed_at_date"
-                                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                     placeholder="2 fried eggs on 2 slices of toast with 1 tsp of butter"
                                     value={consumedAtDate}
                                     onChange={(e) => setConsumedAtDate(new Date(e.target.value).toISOString().split("T")[0])}
@@ -175,7 +175,7 @@ export default function DashboardEditFoodSlideover({ entry, open, setOpen }: { e
                                     type="time"
                                     id="consumed_at_time"
                                     name="consumed_at_time"
-                                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                     placeholder="2 fried eggs on 2 slices of toast with 1 tsp of butter"
                                     value={consumedAtTime}
                                     onChange={(e) => setConsumedAtTime(e.target.value)}
@@ -195,7 +195,7 @@ export default function DashboardEditFoodSlideover({ entry, open, setOpen }: { e
                                     id="description"
                                     name="description"
                                     rows={6}
-                                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                     placeholder="2 fried eggs on 2 slices of toast with 1 tsp of butter"
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
@@ -224,7 +224,7 @@ export default function DashboardEditFoodSlideover({ entry, open, setOpen }: { e
                                         type="text"
                                         name="name"
                                         id="name"
-                                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                        className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                         placeholder="Fried eggs on toast"
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
@@ -240,7 +240,7 @@ export default function DashboardEditFoodSlideover({ entry, open, setOpen }: { e
                                         type="number"
                                         name="calories"
                                         id="calories"
-                                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                        className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                         placeholder="0"
                                         value={calories}
                                         onChange={(e) => setCalories(parseInt(e.target.value))}
@@ -256,7 +256,7 @@ export default function DashboardEditFoodSlideover({ entry, open, setOpen }: { e
                                         type="number"
                                         name="carbohydrates"
                                         id="carbohydrates"
-                                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                        className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                         placeholder="0"
                                         value={carbohydrates}
                                         onChange={(e) => setCarbohydrates(parseInt(e.target.value))}
@@ -272,7 +272,7 @@ export default function DashboardEditFoodSlideover({ entry, open, setOpen }: { e
                                         type="number"
                                         name="fats"
                                         id="fats"
-                                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                        className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                         placeholder="0"
                                         value={fats}
                                         onChange={(e) => setFats(parseInt(e.target.value))}
@@ -288,7 +288,7 @@ export default function DashboardEditFoodSlideover({ entry, open, setOpen }: { e
                                         type="number"
                                         name="proteins"
                                         id="proteins"
-                                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                        className="shadow-sm focus:ring-primary-500 focus:border-primary-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                         placeholder="0"
                                         value={proteins}
                                         onChange={(e) => setProteins(parseInt(e.target.value))}
@@ -299,7 +299,7 @@ export default function DashboardEditFoodSlideover({ entry, open, setOpen }: { e
                         <div className="mt-6">
                             <button
                                 type="submit"
-                                className="w-full text-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                className="w-full text-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
                             >
                                 Update diary entry
                             </button>

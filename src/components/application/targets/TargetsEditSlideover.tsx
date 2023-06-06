@@ -40,7 +40,7 @@ function ManualTargetsUpdate({ user, loading, setLoading }: { user: User, loadin
                     id="target-calories"
                     value={targetCalories}
                     onChange={(e) => setTargetCalories(parseFloat(e.target.value))}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                     />
                 </div>
             </div>
@@ -56,7 +56,7 @@ function ManualTargetsUpdate({ user, loading, setLoading }: { user: User, loadin
                     id="target-carbohydrates"
                     value={targetCarbohydrates}
                     onChange={(e) => setTargetCarbohydrates(parseFloat(e.target.value))}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                     />
                 </div>
             </div>
@@ -72,7 +72,7 @@ function ManualTargetsUpdate({ user, loading, setLoading }: { user: User, loadin
                     id="target-fats"
                     value={targetFats}
                     onChange={(e) => setTargetFats(parseFloat(e.target.value))}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                 />
                 </div>
             </div>
@@ -88,14 +88,14 @@ function ManualTargetsUpdate({ user, loading, setLoading }: { user: User, loadin
                     id="target-proteins"
                     value={targetProteins}
                     onChange={(e) => setTargetProteins(parseFloat(e.target.value))}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                     />
                 </div>
             </div>
             <div className="pt-2">
                 <button
                     type="submit"
-                    className="w-full text-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="w-full text-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
                 >
                     Save targets
                 </button>
@@ -214,7 +214,7 @@ function AssistedTargetsUpdate({ user, loading, setLoading }: { user: User, load
                             id="gender"
                             value={gender}
                             onChange={(e) => setGender(e.target.value)}
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
@@ -230,7 +230,7 @@ function AssistedTargetsUpdate({ user, loading, setLoading }: { user: User, load
                             id="age"
                             value={age}
                             onChange={(e) => setAge(Number(e.target.value))}
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
@@ -246,7 +246,7 @@ function AssistedTargetsUpdate({ user, loading, setLoading }: { user: User, load
                             id="height"
                             value={height}
                             onChange={(e) => setHeight(e.target.value)}
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
@@ -262,7 +262,7 @@ function AssistedTargetsUpdate({ user, loading, setLoading }: { user: User, load
                             id="weight"
                             value={weight}
                             onChange={(e) => setWeight(e.target.value)}
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
@@ -277,7 +277,7 @@ function AssistedTargetsUpdate({ user, loading, setLoading }: { user: User, load
                             id="activity-level"
                             value={activityLevel}
                             onChange={(e) => setActivityLevel(e.target.value)}
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                             />
                             <p className="mt-2 text-sm text-gray-500">How many times a week do you exercise? How long do you exercise for? What type of exercise do you do?</p>
                         </div>
@@ -293,7 +293,7 @@ function AssistedTargetsUpdate({ user, loading, setLoading }: { user: User, load
                             id="weight-goals"
                             value={weightGoals}
                             onChange={(e) => setWeightGoals(e.target.value)}
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                             />
                             <p className="mt-2 text-sm text-gray-500">Would you like to lose, maintain or gain weight?</p>
                         </div>
@@ -321,7 +321,7 @@ function AssistedTargetsUpdate({ user, loading, setLoading }: { user: User, load
                         id="target-calories"
                         value={targetCalories}
                         onChange={(e) => setTargetCalories(parseFloat(e.target.value))}
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                         />
                     </div>
                 </div>
@@ -337,7 +337,7 @@ function AssistedTargetsUpdate({ user, loading, setLoading }: { user: User, load
                         id="target-carbohydrates"
                         value={targetCarbohydrates}
                         onChange={(e) => setTargetCarbohydrates(parseFloat(e.target.value))}
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                         />
                     </div>
                 </div>
@@ -353,7 +353,7 @@ function AssistedTargetsUpdate({ user, loading, setLoading }: { user: User, load
                         id="target-fats"
                         value={targetFats}
                         onChange={(e) => setTargetFats(parseFloat(e.target.value))}
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                     />
                     </div>
                 </div>
@@ -369,7 +369,7 @@ function AssistedTargetsUpdate({ user, loading, setLoading }: { user: User, load
                         id="target-proteins"
                         value={targetProteins}
                         onChange={(e) => setTargetProteins(parseFloat(e.target.value))}
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-600 sm:text-sm sm:leading-6"
                         />
                     </div>
                 </div>
@@ -383,7 +383,7 @@ function AssistedTargetsUpdate({ user, loading, setLoading }: { user: User, load
                     </button>
                     <button
                         type="submit"
-                        className="w-full text-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className="w-full text-center rounded-md bg-primary-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
                     >
                         Save targets
                     </button>
@@ -443,7 +443,7 @@ export default function TargetsEditSlideover({ open, setOpen, user }: { open: bo
                         <div className="ml-3 flex h-7 items-center">
                           <button
                             type="button"
-                            className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                             onClick={() => setOpen(false)}
                           >
                             <span className="sr-only">Close panel</span>
@@ -483,7 +483,7 @@ export default function TargetsEditSlideover({ open, setOpen, user }: { open: bo
                                 <span
                                     aria-hidden="true"
                                     className={classNames(
-                                    tab.current ? 'bg-indigo-500' : 'bg-transparent',
+                                    tab.current ? 'bg-primary-500' : 'bg-transparent',
                                     'absolute inset-x-0 bottom-0 h-0.5'
                                     )}
                                 />
