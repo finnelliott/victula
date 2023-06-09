@@ -17,7 +17,7 @@ Victula is a cutting-edge web application that allows users to track their nutri
 
 ## Features
 
-- AI-powered natural language processing for meal descriptions
+- LLM-powered natural language processing for meal descriptions
 - Estimation of macronutrient values for meals
 - Tracking of nutritional intake over time
 - Nutrition goal estimation based on user-specific factors
@@ -64,13 +64,7 @@ To set up a local copy of Victula, follow these steps:
    npm install
    ```
 
-4. Create a `.env.local` file in the root directory and add the following environment variables:
-
-   ```
-   MONGODB_URI=<your_mongodb_atlas_connection_string>
-   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<your_clerk_publishable_key>
-   CLERK_SECRET_KEY=<your_clerk_secret_key>
-   ```
+4. Update .env.example with your API keys and database URI, and rename the file to .env.local.
 
 5. Start the development server:
 
@@ -90,21 +84,11 @@ To set up a local copy of Victula, follow these steps:
 
 ## Contributing
 
-Victula is an open-source project, and we welcome contributions from the developer community. To contribute, follow these steps:
-
-1. Fork the repository.
-2. Create a new branch with a descriptive name.
-3. Make your changes and commit them with a clear and concise commit message.
-4. Push your changes to the branch on your fork.
-5. Open a pull request, and provide a detailed description of your changes.
+I'm not currently accepting contributions, but feel free to fork the repository and make your own version!
 
 ## Roadmap
 
 In the near future, we plan to expand Victula's availability to mobile devices using React Native. Stay tuned for updates!
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
 
 ## Contact
 
@@ -113,4 +97,4 @@ If you have any questions or feedback, feel free to reach out to me:
 - Email: [finn@finnelliott.com](mailto:finn@finnelliott.com)
 - Twitter: [@finnelliott0](https://twitter.com/finnelliott0)
 
-We appreciate your interest in Victula and look forward to your contributions!
+We appreciate your interest in Victula!
